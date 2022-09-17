@@ -66,3 +66,7 @@ html, body {
 .header__container {
 	grid-area: header;
 }
+
+.main__container {
+	grid-area: hero;
+}

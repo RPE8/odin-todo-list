@@ -1,0 +1,12 @@
+.main__container {
+	--color-1: #FAE1DD;
+}
+.main__container {
+	background-color: var(--color-1);
+}
+
+.main {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}

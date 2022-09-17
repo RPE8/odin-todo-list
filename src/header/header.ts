@@ -1,5 +1,5 @@
 import "./header.css";
-import {createIcon, createElement} from "../utils";
+import {createElement} from "../utils";
 
 export const render = () => {
 	const container = createElement("div", ["header__container", "container"])

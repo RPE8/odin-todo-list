@@ -1,21 +1,17 @@
 import "./index.css";
 import {render as renderHeader} from "./header/header";
+import {createElement} from "./utils";
+
 import {format} from 'date-fns';
 
 const body = document.querySelector("body");
 
-function createContentContainer(parent: HTMLBodyElement): HTMLDivElement {
-	const content = document.createElement("div");
-	content.setAttribute("id", "content");
+function render(): void {
+	if (!body) throw new Error("err");
 
-	parent.append(content);
-	return content;
+	const content = createElement("div", "content");
+	content.append(renderHeader())
+	body.append(content);
 }
 
-if (!body) {
-	console.error("There is no parent");
-	throw new Error("There is no parent");
-}
-
-const content = createContentContainer(body);
-content.append(renderHeader());
+render();

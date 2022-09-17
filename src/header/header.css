@@ -1,16 +1,12 @@
-#header {
+.header__container {
 	--color-1: #FCD5CE;
 }
-
-#header {
-	display: flex;
-	justify-content: center;
-	width: 100%;
+.header__container {
 	min-height: 3rem;
 	background-color: var(--color-1);
 }
 
-.header__container {
+.header {
 	display: flex;
 	align-items: center;
 }

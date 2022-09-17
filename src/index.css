@@ -44,6 +44,10 @@
 }
 
 .container {
-	max-width: 1024px;
 	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.container > * {
+	max-width: 1024px;
 }

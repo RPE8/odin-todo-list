@@ -2,13 +2,12 @@ import "./header.css";
 import {createIcon, createElement} from "../utils";
 
 export const render = () => {
-	const header = createElement("header", [], ["id", "header"]);
+	const container = createElement("div", ["header__container", "container"])
+	const html = `<header class="header">
+		<span class="material-icons header__logo md-36">list_alt</span>
+		<span class="header__text">Todo List</span>
+	</header>`;
 
-	const container = createElement("div", ["header__container", "container"]);
-	const logo = createIcon("list_alt", "md-36", "header__logo");
-	const logoText = createElement("span", "header__text");
-	logoText.textContent = "Todo List";
-	container.append(logo, logoText);
-	header.append(container);
-	return header;
+	container.innerHTML = html;
+	return container;
 }

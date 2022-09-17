@@ -1,7 +1,7 @@
 import "./index.css";
-import {render as renderHeader} from "./header/header";
-import {render as renderMain} from "./main/main";
-import {render as renderAside} from "./aside/aside";
+import {render as renderHeader} from "./parts/header/header";
+import {render as renderMain} from "./parts/main/main";
+import {render as renderAside} from "./parts/aside/aside";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';

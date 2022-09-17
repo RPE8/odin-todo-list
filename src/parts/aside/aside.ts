@@ -1,5 +1,5 @@
 import "./aside.css";
-import {createElement} from "../utils";
+import {createElement} from "../../utils";
 
 export const render = () => {
 	const container = createElement("div", ["aside__container", "container"])

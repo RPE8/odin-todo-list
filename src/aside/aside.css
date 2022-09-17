@@ -1,0 +1,12 @@
+.aside__container {
+	--color-1: #FCD5CE;
+}
+.aside__container {
+	background-color: var(--color-1);
+}
+
+.aside {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}

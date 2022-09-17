@@ -70,3 +70,7 @@ html, body {
 .main__container {
 	grid-area: hero;
 }
+
+.aside__container {
+	grid-area: toolbar;
+}

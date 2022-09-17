@@ -43,11 +43,26 @@
 	box-sizing: border-box;
 }
 
+html, body {
+	height: 100%;
+}
+
+.content {
+	display: grid;
+	grid-template-areas: 
+		"header header"
+		"toolbar hero";
+	grid-template-columns: 15rem 1fr;
+	grid-template-rows: 5rem 1fr;
+	height: 100%;
+}
+
 .container {
 	width: 100%;
 	display: flex;
 	justify-content: center;
 }
-.container > * {
-	max-width: 1024px;
+
+.header__container {
+	grid-area: header;
 }

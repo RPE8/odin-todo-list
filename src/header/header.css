@@ -1,0 +1,10 @@
+.header {
+	--color-1: pink;
+}
+
+.header {
+	display: flex;
+	width: 100%;
+	min-height: 2rem;
+	background-color: var(--color-1);
+}

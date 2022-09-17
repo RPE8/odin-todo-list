@@ -1,4 +1,5 @@
 import "./index.css";
+import {render as renderHeader} from "./header/header";
 import {format} from 'date-fns';
 
 const body = document.querySelector("body");
@@ -17,3 +18,4 @@ if (!body) {
 }
 
 const content = createContentContainer(body);
+content.append(renderHeader());

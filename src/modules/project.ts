@@ -27,7 +27,7 @@ export const addProject:TProjectAdder = (project) => {
 		projects2Add = [...project];
 	}
 
-	projects = [...projects, ...projects2Add.filter(project => isProject(project))];
+	projects = [...JSON.parse(JSON.stringify(projects)), ...projects2Add.filter(project => isProject(project))];
 
 	return projects;
 }

@@ -1,3 +1,4 @@
+import "./index.css";
 import {format} from 'date-fns';
 
 const body = document.querySelector("body");

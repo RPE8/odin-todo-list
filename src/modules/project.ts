@@ -1,22 +1,29 @@
 import {TTask, isTask} from "./task";
 
 type TProject = {
+	id: TProjectId,
 	title: string,
 	description: string,
 	tasks: TTask[]
 }
 
-type TProjectAdder = (project: TProject | TProject[]) => TProject[];
-type TProjectGetter = () => TProject[];
-type TProjectFieldsToCompare = Omit<TProject, "tasks">;
-type TProjectFinder = (lookUp4: Partial<TProjectFieldsToCompare>) => TProject[]; 
-type TIsProject = (project: TProject) => project is TProject;
-type TTaskAdder = (project: Readonly<TProject>, task: TTask) => TProject; 
-let projects: TProject[];
+type TProjectId = string;
 
+type TValidationFields = "id" | "title" | "description";
+
+type TProjectAdder = (project: TProject | TProject[]) => TProject[];
+type TProjectsGetter = () => TProject[];
+type TProjectFieldsToCompare = Pick<TProject, TValidationFields>;
+type TProjectFinder = (lookUp4: Partial<TProjectFieldsToCompare>) => TProject[]; 
+type TProjectRemover = (project: TProject | TProjectId) => TProject[];
+type TTaskAdder = (project: Readonly<TProject>, task: TTask) => TProject; 
+
+
+let projects: TProject[] = [];
+const validationFields: TValidationFields[] = ["id", "title", "description"];
 
 const isProject = (project: TProject): project is TProject => {
-	return project && "title" in project && "description" in project && "data" in project;
+	return project && "id" in project && "title" in project && "description" in project && "tasks" in project;
 }
 
 export const addProject:TProjectAdder = (project) => {
@@ -32,7 +39,12 @@ export const addProject:TProjectAdder = (project) => {
 	return projects;
 }
 
-export const getProjects = () => {
+export const removeProject:TProjectRemover = (project) => {
+
+	return projects;
+}
+
+export const getProjects:TProjectsGetter = () => {
 	return projects;
 }
 

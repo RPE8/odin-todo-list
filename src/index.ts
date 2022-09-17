@@ -2,6 +2,7 @@ import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
 import {render as renderMain} from "./parts/main/main";
 import {render as renderAside} from "./parts/aside/aside";
+import {addProject, getProjects} from "./modules/project";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -17,3 +18,12 @@ function render(): void {
 }
 
 render();
+
+addProject({
+	id: "test",
+	title: "test",
+	description: "test",
+	tasks: []
+});
+
+console.log(getProjects());

@@ -1,9 +1,21 @@
+import { add } from "date-fns";
+
 type TIconSize = "md-18" | "md-24" | "md-36" | "md-48";
-type TIconCreator = (name: string, size: TIconSize) => HTMLSpanElement;
+type TIconCreator = (name: string, size: TIconSize, additionalClasses?: string[] | string) => HTMLSpanElement;
 type TElementCreator = (el: string, classes?: string[] | string, att?: [string, string][] | [string, string]) => HTMLElement;
 
-export const createIcon: TIconCreator = (name, size) => {
-	const classes = size ? ["material-icons", size] : "material-icons";
+export const createIcon: TIconCreator = (name, size, additionalClasses) => {
+	let classes = ["material-icons"];
+
+	if (size) {
+		classes.push(size);
+	}
+	if (Array.isArray(additionalClasses)) {
+		classes = classes.concat(additionalClasses);
+	} else if (typeof additionalClasses === "string") {
+		classes.push(additionalClasses);
+	}
+	
 	const span = createElement("span", classes);
 	span.textContent = name;
 	return span;

@@ -49,14 +49,12 @@ export const getProjects:TProjectsGetter = () => {
 }
 
 export const findProject:TProjectFinder = (lookUp4) => {
-	const keys = Object.keys(lookUp4); 
-	if (!keys.length) {
-		return [];
-	}
 	return projects.filter(project => {
-		for (let i = 0; i < keys.length; i++) {
-			if (lookUp4[keys[i] as keyof TProjectFieldsToCompare] !== project[keys[i] as keyof TProjectFieldsToCompare]) {
-				return false;
+		for (let i = 0; i < validationFields.length; i++) {
+			if (validationFields[i] in lookUp4) {
+				if (lookUp4[validationFields[i] as keyof TProjectFieldsToCompare] !== project[validationFields[i] as keyof TProjectFieldsToCompare]) {
+					return false;
+				}
 			}
 		}
 		return true;

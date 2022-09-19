@@ -2,7 +2,7 @@ import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
 import {render as renderMain} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects} from "./modules/project";
+import {addProject, getProjects, findProject} from "./modules/project";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -29,13 +29,22 @@ let formAddTitle = document.querySelector(".add-form__title") as HTMLInputElemen
 
 formAddBtn?.addEventListener("click", () => {
 	const title = formAddTitle.value;
-	addProject({
+	const project = {
 		id: title,
 		title: title,
 		description: "",
-		tasks: []
-	});
+		tasks: [],
+	};
+	const exists = findProject(project).length;
+	console.log(exists);
+	if (exists) return;
+
+	addProject(project);
 	renderProjects(getProjects());
+});
+
+formCancelBtn?.addEventListener("click", () => {
+	formAddTitle.value = "";
 })
 
 

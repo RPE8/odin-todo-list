@@ -31,3 +31,25 @@ const prepareTasksListHTML = (tasks: TTask[]): string => {
 	const html = "<li></li>";
 	return html;
 }
+
+export const renderTasks = (tasks: TTask[]): void => {
+	const tasksList = document.querySelector(".main__task-list");
+	if (!tasksList) return;
+
+	tasksList.innerHTML = prepareTasksHTML(tasks);
+}
+
+const prepareTasksHTML = (tasks: TTask[]): string => {
+	return tasks.map(prepareTaskHTML).join("");
+}
+
+const prepareTaskHTML = (task: TTask): string => {
+	const html = `<li class="task-list__task task" data-id="${task.id}">
+		<span class="task__title">${task.title}</span>
+		<span class="description">${task.description}</span>
+		<button class="task__remove">
+			<span class="material-icons header__logo md-24">list_alt</span>
+		</button>
+	</li>` 
+	return html;
+}

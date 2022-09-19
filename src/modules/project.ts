@@ -8,7 +8,7 @@ export type TProject = {
 	tasks: TTask[]
 }
 
-type TProjectId = string;
+export type TProjectId = string;
 
 type TValidationFields = "id" | "title" | "description";
 

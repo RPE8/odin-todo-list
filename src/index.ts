@@ -1,8 +1,8 @@
 import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
-import {renderTasklist as renderTasks} from "./parts/main/main";
+import {renderTasklist, renderTasks} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects, findProject, removeProject, isValidProject} from "./modules/project";
+import {addProject, getProjects, findProject, removeProject, isValidProject, TProjectId} from "./modules/project";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -13,7 +13,7 @@ function render(): void {
 	if (!body) throw new Error("err");
 
 	const content = createElement("div", "content");
-	content.append(renderHeader(), renderTasks([]), renderToolbar([]));
+	content.append(renderHeader(), renderTasklist([]), renderToolbar([]));
 	body.append(content);
 }
 
@@ -32,7 +32,7 @@ const handleRemovePress = (event: Event) => {
 	event.stopPropagation();
 	const currentTarget = event.currentTarget as HTMLButtonElement;
 	const parent = currentTarget.parentElement as HTMLLIElement;
-	const id = parent.dataset.id;
+	const id = parent.dataset.id as TProjectId;
 	if (id) {
 		removeProject(id);
 		sycnProjects();
@@ -40,12 +40,16 @@ const handleRemovePress = (event: Event) => {
 }
 
 const handleProjectPress = (event: Event) => {
-	const {target, currentTarget} = event;
+	const currentTarget = event.currentTarget as HTMLLIElement;
+	const id = currentTarget.dataset.id as TProjectId;
+	const project = findProject({id})[0];
+	renderTasks(project.tasks);
+	console.log(project?.tasks);
 	console.log("display tasks");
 }
 
 const handleProjectAddPress = () => {
-	const title = formAddTitle?.value;
+	const title = formProjectTitleInput?.value;
 	if (!title) return;
 	const project = {
 		id: title,
@@ -61,12 +65,15 @@ const handleProjectAddPress = () => {
 }
 
 const handleProjectCancelPress = () => {
-	if (formAddTitle) formAddTitle.value = "";
+	if (formProjectTitleInput) formProjectTitleInput.value = "";
 }
 
-const formAddBtn = document.querySelector(".add-form__add");
-const formCancelBtn = document.querySelector(".add-form__cancel") ;
-const formAddTitle = document.querySelector(".add-form__title") as HTMLInputElement;
+const formAddProjectButton = document.querySelector(".project-menu__add-form .add-form__add");
+const formCancelButton = document.querySelector(".project-menu__add-form .add-form__cancel") ;
+const formProjectTitleInput = document.querySelector(".project-menu__add-form .add-form__title") as HTMLInputElement;
 
-formAddBtn?.addEventListener("click", handleProjectAddPress);
-formCancelBtn?.addEventListener("click", handleProjectCancelPress);
+formAddProjectButton?.addEventListener("click", handleProjectAddPress);
+formCancelButton?.addEventListener("click", handleProjectCancelPress);
+
+addProject({title: "1", description: "2", id: "3", tasks: [{id: "1", title: "2", date: "", description: ""}]});
+sycnProjects();

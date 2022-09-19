@@ -19,24 +19,19 @@ function render(): void {
 
 render();
 
-const formAddBtn = document.querySelector(".add-form__add");
-const formCancelBtn = document.querySelector(".add-form__cancel");
-
+let formAddBtn = document.querySelector(".add-form__add");
+let formCancelBtn = document.querySelector(".add-form__cancel");
 // const addProject = (project) => {
 
 // }
 
+
 formAddBtn?.addEventListener("click", () => {
+	// const title = 
 	addProject({
 		id: "test",
 		title: "test",
 		description: "test",
-		tasks: []
-	});
-	addProject({
-		id: "test2",
-		title: "test2",
-		description: "test2",
 		tasks: []
 	});
 	renderProjects(getProjects());

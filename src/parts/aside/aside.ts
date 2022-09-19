@@ -31,7 +31,7 @@ const prepareProjectsHTML = (projects: TProject[]) => {
 }
 
 const prepareProjectHTML = (project: TProject) => {
-	const html = `<li>
+	const html = `<li data-id="${project.id}">
 		<span class="material-icons header__logo md-24">list_alt</span>
 		<span>${project.title}</span>
 		<span class="material-icons header__logo md-24">list_alt</span>
@@ -40,19 +40,19 @@ const prepareProjectHTML = (project: TProject) => {
 }
 
 const preparePorjectsMenuContentHTML = (projects: TProject[]) => {
-	return `${prepareProjectsHTML(projects).join("")}
-	<li class="project-menu__add">Add Project<li>
-	<li class="project-menu__add-form add-form">
+	return `<ul class="project-menu__projects-list menu">${prepareProjectsHTML(projects).join("")}</ul>
+	<button class="project-menu__add">Add Project<button>
+	<div class="project-menu__add-form add-form">
 		<input placeholder="Project name" class="add-form__title"></input>
 		<button class="add-form__add">Add</button>
 		<button class="add-form__cancel">Cancel</button>
-	</li>`
+	</div>`
 }
 
 export const renderProjects = (projects: TProject[]) => {
-	const projectsMenu = document.querySelector(".projects-menu");
+	const projectsMenu = document.querySelector(".project-menu__projects-list");
 	if (!projectsMenu) return;
 
-	projectsMenu.innerHTML = preparePorjectsMenuContentHTML(projects);
+	projectsMenu.innerHTML = prepareProjectsHTML(projects).join("");
 }
 

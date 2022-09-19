@@ -11,7 +11,12 @@ export const render = () => {
 		</menu>
 		<h3 class="aside__projects-title projects-title">Projects</h3>
 		<menu class="aside__projects-menu projects-menu menu" >
-			<li>Add Project<li>
+			<li class="project-menu__add>Add Project<li>
+			<li class="project-menu__add-form add-form>
+				<input placeholder="Project name" class="add-form__title"></input>
+				<button class="add-form__add">Add</button>
+				<button class="add-form__cancel">Cancel</button>
+			</li>
 		</menu>
 	</aside>`;
 

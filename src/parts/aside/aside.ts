@@ -31,16 +31,16 @@ const prepareProjectsHTML = (projects: TProject[]) => {
 }
 
 const prepareProjectHTML = (project: TProject) => {
-	const html = `
+	const html = `<li>
 		<span class="material-icons header__logo md-24">list_alt</span>
 		<span>${project.title}</span>
 		<span class="material-icons header__logo md-24">list_alt</span>
-	` 
+	</li>` 
 	return html;
 }
 
 const preparePorjectsMenuContentHTML = (projects: TProject[]) => {
-	return `${prepareProjectsHTML(projects)}
+	return `${prepareProjectsHTML(projects).join("")}
 	<li class="project-menu__add">Add Project<li>
 	<li class="project-menu__add-form add-form">
 		<input placeholder="Project name" class="add-form__title"></input>

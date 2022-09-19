@@ -8,5 +8,20 @@
 .main {
 	display: flex;
 	align-items: center;
+	flex-direction: column;
 	width: 100%;
+}
+
+.task-list {
+	list-style-type: none;
+}
+
+.add-form {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.add-form__title, .add-form__description {
+	flex: 1 0 100%;
 }

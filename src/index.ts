@@ -1,6 +1,6 @@
 import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
-import {render as renderMain} from "./parts/main/main";
+import {renderTasklist as renderTasks} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
 import {addProject, getProjects, findProject, removeProject, isValidProject} from "./modules/project";
 import {createElement} from "./utils";
@@ -13,7 +13,7 @@ function render(): void {
 	if (!body) throw new Error("err");
 
 	const content = createElement("div", "content");
-	content.append(renderHeader(), renderMain(), renderToolbar([]));
+	content.append(renderHeader(), renderTasks([]), renderToolbar([]));
 	body.append(content);
 }
 

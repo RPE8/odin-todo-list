@@ -2,7 +2,7 @@ import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
 import {render as renderMain} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects, findProject} from "./modules/project";
+import {addProject, getProjects, findProject, removeProject} from "./modules/project";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -29,6 +29,7 @@ let formAddTitle = document.querySelector(".add-form__title") as HTMLInputElemen
 
 formAddBtn?.addEventListener("click", () => {
 	const title = formAddTitle.value;
+	if (!title) return;
 	const project = {
 		id: title,
 		title: title,
@@ -41,6 +42,11 @@ formAddBtn?.addEventListener("click", () => {
 
 	addProject(project);
 	renderProjects(getProjects());
+	const projectRemoveBtn = document.querySelector(`[data-id='${title}'] > .project__remove`) as HTMLButtonElement;
+	projectRemoveBtn.addEventListener("click", () => {
+		removeProject(project);
+		renderProjects(getProjects());
+	});
 });
 
 formCancelBtn?.addEventListener("click", () => {

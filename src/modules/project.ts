@@ -40,7 +40,7 @@ export const addProject:TProjectAdder = (project) => {
 }
 
 export const removeProject:TProjectRemover = (project) => {
-
+	
 	return projects;
 }
 

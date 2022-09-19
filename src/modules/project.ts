@@ -1,6 +1,6 @@
 import {TTask, isTask} from "./task";
 
-type TProject = {
+export type TProject = {
 	id: TProjectId,
 	title: string,
 	description: string,

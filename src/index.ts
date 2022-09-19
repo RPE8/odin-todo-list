@@ -21,17 +21,18 @@ render();
 
 let formAddBtn = document.querySelector(".add-form__add");
 let formCancelBtn = document.querySelector(".add-form__cancel");
+let formAddTitle = document.querySelector(".add-form__title") as HTMLInputElement;
 // const addProject = (project) => {
 
 // }
 
 
 formAddBtn?.addEventListener("click", () => {
-	const title = 
+	const title = formAddTitle.value;
 	addProject({
-		id: "test",
-		title: "test",
-		description: "test",
+		id: title,
+		title: title,
+		description: "",
 		tasks: []
 	});
 	renderProjects(getProjects());

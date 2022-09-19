@@ -41,7 +41,7 @@ const prepareProjectHTML = (project: TProject): string => {
 
 const preparePorjectsMenuContentHTML = (projects: TProject[]): string => {
 	return `<ul class="project-menu__projects-list menu">${prepareProjectsHTML(projects)}</ul>
-	<button class="project-menu__add">Add Project<button>
+	<button class="project-menu__add">Add Project</button>
 	<div class="project-menu__add-form add-form">
 		<input placeholder="Project name" class="add-form__title"></input>
 		<button class="add-form__add">Add</button>

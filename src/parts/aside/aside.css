@@ -7,6 +7,24 @@
 
 .aside {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	width: 100%;
+	padding: 1rem;
+}
+
+.menu {
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+
+}
+
+.add-form {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.add-form__title {
+	flex: 1 0 100%;
 }

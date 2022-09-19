@@ -3,6 +3,7 @@ import { add } from "date-fns";
 type TIconSize = "md-18" | "md-24" | "md-36" | "md-48";
 type TIconCreator = (name: string, size: TIconSize, additionalClasses?: string[] | string) => HTMLSpanElement;
 type TElementCreator = (el: string, classes?: string[] | string, att?: [string, string][] | [string, string]) => HTMLElement;
+type TObjectClone = <T>(object: T) => T;
 
 export const createIcon: TIconCreator = (name, size, additionalClasses) => {
 	let classes = ["material-icons"];
@@ -42,4 +43,8 @@ export const createElement: TElementCreator = (el, classes, att) => {
 	}
 
 	return element;
+}
+
+export const copyObj: TObjectClone = (object) => {
+	return JSON.parse(JSON.stringify(object));
 }

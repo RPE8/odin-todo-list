@@ -1,4 +1,5 @@
 import {TTask, isTask} from "./task";
+import {copyObj} from "../utils";
 
 export type TProject = {
 	id: TProjectId,
@@ -34,13 +35,19 @@ export const addProject:TProjectAdder = (project) => {
 		projects2Add = [...project];
 	}
 
-	projects = [...JSON.parse(JSON.stringify(projects)), ...projects2Add.filter(project => isProject(project))];
+	projects = [...copyObj(projects), ...projects2Add.filter(project => isProject(project))];
 
 	return projects;
 }
 
 export const removeProject:TProjectRemover = (project) => {
-	
+	if (typeof project === "string") {
+		projects = copyObj(projects).filter((prj: TProject) => prj.id !== project);
+	} else {
+		projects = copyObj(projects).filter((prj: TProject) => prj.id !== project.id);
+	}
+
+
 	return projects;
 }
 
@@ -65,7 +72,7 @@ export const addTask2Project: TTaskAdder = (project, task) => {
 	if (!isTask(task)) {
 		throw new Error("not a valid task");
 	}
-	const projectCopy = JSON.parse(JSON.stringify(project));
-	projectCopy.push(task);
+	const projectCopy = copyObj<TProject>(project);
+	projectCopy.tasks.push(task);
 	return projectCopy;
 }

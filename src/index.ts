@@ -19,10 +19,6 @@ function render(): void {
 
 render();
 
-let formAddBtn = document.querySelector(".add-form__add");
-let formCancelBtn = document.querySelector(".add-form__cancel");
-let formAddTitle = document.querySelector(".add-form__title") as HTMLInputElement;
-
 const sycnProjects = () => {
 	renderProjects(getProjects());
 	const projectRemoveBtns = Array.from(document.querySelectorAll(`.project-menu__projects-list > [data-id]`)) as HTMLLIElement[];
@@ -31,23 +27,6 @@ const sycnProjects = () => {
 		item.querySelector(".project__remove")?.addEventListener("click", handleRemovePress);
 	});
 }
-
-
-formAddBtn?.addEventListener("click", () => {
-	const title = formAddTitle.value;
-	if (!title) return;
-	const project = {
-		id: title,
-		title: title,
-		description: "",
-		tasks: [],
-	};
-
-	if (!isValidProject(project)) return;
-
-	addProject(project);
-	sycnProjects();
-});
 
 const handleRemovePress = (event: Event) => {
 	event.stopPropagation();
@@ -65,6 +44,29 @@ const handleProjectPress = (event: Event) => {
 	console.log("display tasks");
 }
 
-formCancelBtn?.addEventListener("click", () => {
-	formAddTitle.value = "";
-});
+const handleProjectAddPress = () => {
+	const title = formAddTitle?.value;
+	if (!title) return;
+	const project = {
+		id: title,
+		title: title,
+		description: "",
+		tasks: [],
+	};
+
+	if (!isValidProject(project)) return;
+
+	addProject(project);
+	sycnProjects();
+}
+
+const handleProjectCancelPress = () => {
+	if (formAddTitle) formAddTitle.value = "";
+}
+
+const formAddBtn = document.querySelector(".add-form__add");
+const formCancelBtn = document.querySelector(".add-form__cancel") ;
+const formAddTitle = document.querySelector(".add-form__title") as HTMLInputElement;
+
+formAddBtn?.addEventListener("click", handleProjectAddPress);
+formCancelBtn?.addEventListener("click", handleProjectCancelPress);

@@ -2,7 +2,7 @@ import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
 import {render as renderMain} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects, findProject, removeProject} from "./modules/project";
+import {addProject, getProjects, findProject, removeProject, isValidProject} from "./modules/project";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -36,9 +36,8 @@ formAddBtn?.addEventListener("click", () => {
 		description: "",
 		tasks: [],
 	};
-	const exists = findProject(project).length;
-	console.log(exists);
-	if (exists) return;
+
+	if (!isValidProject(project)) return;
 
 	addProject(project);
 	renderProjects(getProjects());

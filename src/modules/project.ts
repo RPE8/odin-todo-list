@@ -18,7 +18,7 @@ type TProjectFieldsToCompare = Pick<TProject, TValidationFields>;
 type TProjectFinder = (lookUp4: Partial<TProjectFieldsToCompare>) => TProject[]; 
 type TProjectRemover = (project: TProject | TProjectId) => TProject[];
 type TTaskAdder = (project: Readonly<TProject>, task: TTask) => TProject; 
-
+type TProjectValidator = (project: TProject) => boolean;
 
 let projects: TProject[] = [];
 const validationFields: TValidationFields[] = ["id", "title", "description"];
@@ -75,4 +75,9 @@ export const addTask2Project: TTaskAdder = (project, task) => {
 	const projectCopy = copyObj<TProject>(project);
 	projectCopy.tasks.push(task);
 	return projectCopy;
+}
+
+export const isValidProject: TProjectValidator = (project) => {
+	const trimedTitle = project.title.trim();
+	return isProject(project) && trimedTitle.length > 0 && trimedTitle.length < 20 && findProject(project).length === 0;
 }

@@ -50,6 +50,7 @@ formAddBtn?.addEventListener("click", () => {
 });
 
 const handleRemovePress = (event: Event) => {
+	event.stopPropagation();
 	const currentTarget = event.currentTarget as HTMLButtonElement;
 	const parent = currentTarget.parentElement as HTMLLIElement;
 	const id = parent.dataset.id;
@@ -61,8 +62,7 @@ const handleRemovePress = (event: Event) => {
 
 const handleProjectPress = (event: Event) => {
 	const {target, currentTarget} = event;
-	console.log(target);
-	console.log(currentTarget);
+	console.log("display tasks");
 }
 
 formCancelBtn?.addEventListener("click", () => {

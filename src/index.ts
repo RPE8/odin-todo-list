@@ -27,7 +27,7 @@ let formCancelBtn = document.querySelector(".add-form__cancel");
 
 
 formAddBtn?.addEventListener("click", () => {
-	// const title = 
+	const title = 
 	addProject({
 		id: "test",
 		title: "test",

@@ -2,13 +2,13 @@ import "./aside.css";
 import {TProject} from "../../modules/project";
 import {createElement} from "../../utils";
 
-const container = createElement("div", ["aside__container", "container"])
+const container: HTMLElement = createElement("div", ["aside__container", "container"])
 
-export const renderToolbar = (projects: TProject[]) => {
+export const renderToolbar = (projects: TProject[]): typeof container => {
 	return render(projects);
 }
 
-const render = (projects: TProject[] = []) => {
+const render = (projects: TProject[] = []): typeof container => {
 	container.replaceChildren();
 	const html = `<aside class="aside">
 		<menu class="aside__main-menu main-menu menu">
@@ -26,11 +26,11 @@ const render = (projects: TProject[] = []) => {
 	return container;
 }
 
-const prepareProjectsHTML = (projects: TProject[]) => {
-	return projects.map(prepareProjectHTML);
+const prepareProjectsHTML = (projects: TProject[]): string => {
+	return projects.map(prepareProjectHTML).join("");
 }
 
-const prepareProjectHTML = (project: TProject) => {
+const prepareProjectHTML = (project: TProject): string => {
 	const html = `<li data-id="${project.id}">
 		<span class="material-icons header__logo md-24">list_alt</span>
 		<span>${project.title}</span>
@@ -39,8 +39,8 @@ const prepareProjectHTML = (project: TProject) => {
 	return html;
 }
 
-const preparePorjectsMenuContentHTML = (projects: TProject[]) => {
-	return `<ul class="project-menu__projects-list menu">${prepareProjectsHTML(projects).join("")}</ul>
+const preparePorjectsMenuContentHTML = (projects: TProject[]): string => {
+	return `<ul class="project-menu__projects-list menu">${prepareProjectsHTML(projects)}</ul>
 	<button class="project-menu__add">Add Project<button>
 	<div class="project-menu__add-form add-form">
 		<input placeholder="Project name" class="add-form__title"></input>
@@ -49,10 +49,10 @@ const preparePorjectsMenuContentHTML = (projects: TProject[]) => {
 	</div>`
 }
 
-export const renderProjects = (projects: TProject[]) => {
+export const renderProjects = (projects: TProject[]): void => {
 	const projectsMenu = document.querySelector(".project-menu__projects-list");
 	if (!projectsMenu) return;
 
-	projectsMenu.innerHTML = prepareProjectsHTML(projects).join("");
+	projectsMenu.innerHTML = prepareProjectsHTML(projects);
 }
 

@@ -15,6 +15,7 @@ export const render = (tasks: TTask[]): typeof container => {
 		<ul class="main__task-list task-list">
 			${prepareTasksListHTML(tasks)}
 		</ul>
+		<button class="main__add-task add-task">Add task</button>
 		<div class="main__add-form add-form">
 			<input placeholder="Task name" class="add-form__title"></input>
 			<input placeholder="Task description" class="add-form__description"></input>

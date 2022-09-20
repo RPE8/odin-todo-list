@@ -30,8 +30,8 @@ type TProjectsTaskFinder = TEntityFinder<TTask, TValidationFields>;
 let projects: TProject[] = [];
 const validationFields: TValidationFields[] = ["id", "title", "description"];
 
-const isProject = (project: TProject): project is TProject => {
-	return validationFields.every(field => field in project);
+const isProject = (project: TProject & Record<string, unknown>): project is TProject => {
+	return project && validationFields.every(field => field in project);
 }
 
 export const addProject:TProjectAdder = (project) => {

@@ -16,11 +16,12 @@ export const validationFields: TValidationFields[] = ["id", "title", "descriptio
 
 type TTaskValidator = (task: TTask) => boolean; 
 
-export const isTask = (task: TTask): task is TTask => {
+export const isTask = (task: TTask & Record<string, unknown>): task is TTask => {
 	return validationFields.every(field => field in task);
 }
 
 export const isValidTask: TTaskValidator = (task) => {
+	if (!task) return false;
 	const trimedTitle = task.title.trim();
 	return isTask(task) && trimedTitle.length > minTitleLength && trimedTitle.length < maxTitleLength;
 }

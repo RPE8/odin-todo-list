@@ -60,20 +60,24 @@ const handleProjectPress = (event: Event) => {
 }
 
 const handleProjectAddPress = () => {
-	const title = formProjectTitleInput?.value;
-	if (!title) return;
-	const project = {
-		id: title,
-		title: title,
-		description: "",
-		tasks: [],
-	};
-
-	if (!isValidProject(project)) return;
-
-	addProject(project);
-	sycnProjects();
-	clearProjectInputs();
+	try {
+		const title = formProjectTitleInput?.value;
+		if (!title) return;
+		const project = {
+			id: title,
+			title: title,
+			description: "",
+			tasks: [],
+		};
+	
+		if (!isValidProject(project)) return;
+	
+		addProject(project);
+		sycnProjects();
+		clearProjectInputs();
+	} catch(err) {
+		console.error(err);
+	}
 }
 
 const handleProjectCancelPress = () => {
@@ -85,6 +89,7 @@ const clearProjectInputs = () => {
 }
 
 const handleTaskAddPress = () => {
+	try {
 		const title = formTaskTitleInput?.value;
 		const description = formTaskDescriptionInput?.value;
 		if (!title) return;
@@ -98,6 +103,9 @@ const handleTaskAddPress = () => {
 		addTask2Project(selectedProject, task);
 		syncTasks();
 		clearTaskInputs();
+	} catch (err) {
+		console.error(err);
+	}
 }
 
 const handleTaskCancelPress = () => {

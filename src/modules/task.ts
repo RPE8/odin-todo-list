@@ -3,7 +3,7 @@ export const maxTitleLength = 20;
 export const minDescriptionLength = 0;
 export const maxDescriptionLength = 20;
 
-import {format, isValid} from 'date-fns'
+import { format, isValid } from 'date-fns';
 
 export type TTask = {
   id: TTaskId;
@@ -32,7 +32,7 @@ export const isTask = (
 
 export const isValidTask: TTaskValidator = (task) => {
   if (!task) return false;
-	if (!isValid(new Date(task.date))) return false;
+  if (!isValid(new Date(task.date))) return false;
   const trimedTitle = task.title.trim();
   return (
     isTask(task) &&

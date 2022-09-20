@@ -139,12 +139,10 @@ const handleTaskCancelPress = (): void => {
 const clearTaskInputs = (): void => {
   if (formTaskTitleInput) formTaskTitleInput.value = '';
   if (formTaskDescriptionInput) formTaskDescriptionInput.value = '';
-	if (formTaskDateStartInput) formTaskDateStartInput.value = '';
+  if (formTaskDateStartInput) formTaskDateStartInput.value = '';
 };
 
-const handleDateStartChange = (): void => {
-  
-};
+const handleDateStartChange = (): void => {};
 
 let selectedProject: TProject;
 

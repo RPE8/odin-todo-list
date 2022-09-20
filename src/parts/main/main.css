@@ -10,10 +10,13 @@
 	align-items: center;
 	flex-direction: column;
 	width: 100%;
+	gap: 1rem;
+	padding: 1rem;
 }
 
 .task-list {
 	list-style-type: none;
+	width: 100%;
 }
 
 .add-form {
@@ -24,4 +27,17 @@
 
 .add-form__title, .add-form__description {
 	flex: 1 0 100%;
+}
+
+.task {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.task__remove {
+	display: flex;
+	align-items: flex;
+	border: 0;
+	background: none;
 }

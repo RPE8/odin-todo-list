@@ -10,21 +10,48 @@
 	flex-direction: column;
 	width: 100%;
 	padding: 1rem;
+	gap: 1rem;
 }
 
 .menu {
 	list-style-type: none;
 	display: flex;
 	flex-direction: column;
-
 }
 
 .add-form {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
+	gap: .5rem;
+	justify-content: space-between;
 }
 
 .add-form__title {
 	flex: 1 0 100%;
+}
+
+.projects-title {
+	font-size: 1.7rem;
+}
+
+.projects-menu {
+	gap: 1.5rem
+}
+
+.project-menu__projects-list  {
+	gap: .5rem;
+}
+
+.project {
+	display: flex;
+	align-items: center;
+}
+
+.project__remove {
+	display: flex;
+	align-items: flex;
+	border: 0;
+	background: none;
+	margin-left: auto;
 }

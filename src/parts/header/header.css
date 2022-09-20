@@ -5,6 +5,11 @@
 	background-color: var(--color-1);
 }
 
+.header__text {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
 .header {
 	display: flex;
 	align-items: center;

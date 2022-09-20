@@ -6,7 +6,7 @@ import {
   minDescriptionLength,
   maxDescriptionLength
 } from '../../modules/task';
-import {format, isValid} from 'date-fns'
+import { format, isValid } from 'date-fns';
 import { createElement } from '../../utils';
 
 const container = createElement('div', [
@@ -21,10 +21,6 @@ export const renderTasklist = (tasks: TTask[]): typeof container => {
 export const render = (tasks: TTask[]): typeof container => {
   const html = `<main class="main">
 		<h2 class="main__title">Tasks</h2>
-		<ul class="main__task-list task-list">
-			${prepareTasksListHTML(tasks)}
-		</ul>
-		<button class="main__add-task add-task">Add task</button>
 		<div class="main__add-form add-form">
 			<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
 			<input maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
@@ -37,6 +33,9 @@ export const render = (tasks: TTask[]): typeof container => {
 				<button class="add-form__cancel">Cancel</button>
 			</div>
 		</div>
+		<ul class="main__task-list task-list">
+			${prepareTasksListHTML(tasks)}
+		</ul>
 	</main>`;
 
   container.innerHTML = html;
@@ -60,15 +59,15 @@ const prepareTasksHTML = (tasks: TTask[]): string => {
 };
 
 const prepareTaskHTML = (task: TTask): string => {
-	debugger;
-	const date = new Date(task.date);
-	
+  debugger;
+  const date = new Date(task.date);
+
   const html = `<li class="task-list__task task" data-id="${task.id}">
 		<span class="task__title">${task.title}</span>
 		<span class="description">${task.description}</span>
-		<span class="description">${isValid(date) ? format(date, "dd MM yyyy") : ""}</span>
-		<button class="task__remove">
-			<span class="material-icons header__logo md-24">list_alt</span>
+		<span class="date">${isValid(date) ? format(date, 'dd MM yyyy') : ''}</span>
+		<button class="task__remove remove">
+			<span class="material-icons header__logo md-24">close</span>
 		</button>
 	</li>`;
   return html;

@@ -2,7 +2,8 @@ import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
 import {renderTasklist, renderTasks} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects, findProject, removeProject, isValidProject, addTask2Project, updateProject, TProjectId, TProject} from "./modules/project";
+import {addProject, getProjects, findProject, removeProject, isValidProject, addTask2Project, TProjectId, TProject, removeTaskFromProject} from "./modules/project";
+import {TTaskId} from "./modules/task";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -19,7 +20,7 @@ function render(): void {
 
 render();
 
-const sycnProjects = () => {
+const syncProjects = () => {
 	renderProjects(getProjects());
 	const projectRemoveBtns = Array.from(document.querySelectorAll(`.project-menu__projects-list > [data-id]`)) as HTMLLIElement[];
 	projectRemoveBtns.forEach(item => {
@@ -31,11 +32,21 @@ const sycnProjects = () => {
 const syncTasks = () => {
 	if (!selectedProject) return;
 	renderTasks(selectedProject.tasks);
-	// const projectRemoveBtns = Array.from(document.querySelectorAll(`.project-menu__projects-list > [data-id]`)) as HTMLLIElement[];
-	// projectRemoveBtns.forEach(item => {
-	// 	item.addEventListener("click", handleProjectPress);
-	// 	item.querySelector(".project__remove")?.addEventListener("click", handleRemovePress);
-	// });
+	const tasksRemoveBtns = Array.from(document.querySelectorAll(`.task-list .task__remove`)) as HTMLLIElement[];
+	tasksRemoveBtns.forEach(item => {
+		item.addEventListener("click", handleTaskRemovePress);
+	});
+}
+
+const handleTaskRemovePress = (event: Event) => {
+	const currentTarget = event.currentTarget as HTMLButtonElement;
+	if (!currentTarget) return;
+	const parent = currentTarget.parentElement as HTMLLIElement;
+	const id = parent.dataset.id as TTaskId;
+	if (id) {
+		removeTaskFromProject(selectedProject, id);
+		syncTasks();
+	}
 }
 
 const handleRemovePress = (event: Event) => {
@@ -45,7 +56,7 @@ const handleRemovePress = (event: Event) => {
 	const id = parent.dataset.id as TProjectId;
 	if (id) {
 		removeProject(id);
-		sycnProjects();
+		syncProjects();
 	}
 }
 
@@ -53,8 +64,8 @@ const handleProjectPress = (event: Event) => {
 	const currentTarget = event.currentTarget as HTMLLIElement;
 	const id = currentTarget.dataset.id as TProjectId;
 	const project = findProject({id})[0];
-	renderTasks(project.tasks);
 	selectedProject = project;
+	syncTasks();
 	console.log(project?.tasks);
 	console.log("display tasks");
 }
@@ -73,7 +84,7 @@ const handleProjectAddPress = () => {
 		if (!isValidProject(project)) return;
 	
 		addProject(project);
-		sycnProjects();
+		syncProjects();
 		clearProjectInputs();
 	} catch(err) {
 		console.error(err);
@@ -142,4 +153,4 @@ formTaskCancelButton?.addEventListener("click", handleTaskCancelPress);
 
 addProject({title: "1", description: "1", id: "1", tasks: [{id: "1", title: "1", date: "", description: ""}]});
 addProject({title: "2", description: "2", id: "2", tasks: [{id: "2", title: "2", date: "", description: ""}]});
-sycnProjects();
+syncProjects();

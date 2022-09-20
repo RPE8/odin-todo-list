@@ -1,4 +1,4 @@
-import {TTask, isTask, isValidTask, validationFields as taskValidationFields} from "./task";
+import {TTask, TTaskId,isTask, isValidTask, validationFields as taskValidationFields} from "./task";
 import {copyObj} from "../utils";
 
 export const minTitleLength = 0;
@@ -26,6 +26,7 @@ type TProjectUpdater = (project: TProject) => TProject[];
 type TProjectValidator = (project: TProject) => boolean;
 type TProjectsTaskValidator = (project: TProject, task: TTask) => boolean;
 type TProjectsTaskFinder = TEntityFinder<TTask, TValidationFields>;
+type TProjectTaskRemover = (project: TProject, task: TTaskId | TTask) => TProject;
 
 let projects: TProject[] = [];
 const validationFields: TValidationFields[] = ["id", "title", "description"];
@@ -120,4 +121,10 @@ export const isValidProject: TProjectValidator = (project) => {
 export const validateTaskWithinProject: TProjectsTaskValidator = (project, task) => {
 	if (!isProject(project) || !isValidTask(task) || findTask(task, project.tasks).length) return false;
 	return true;
+}
+
+export const removeTaskFromProject:TProjectTaskRemover = (project, task) => {
+	const taskId = typeof task === "string" ? task : task.id;
+	project.tasks = project.tasks.filter(task => task.id !== taskId);
+	return project;
 }

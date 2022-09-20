@@ -5,11 +5,13 @@ export const maxDescriptionLength = 20;
 
 
 export type TTask = {
-	id: string,
+	id: TTaskId,
 	title: string,
 	description: string,
 	date: string,
 } 
+
+export type TTaskId = string;
 
 export type TValidationFields = "id" | "title" | "description" | "date";
 export const validationFields: TValidationFields[] = ["id", "title", "description", "date"];

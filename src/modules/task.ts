@@ -1,3 +1,9 @@
+export const minTitleLength = 0;
+export const maxTitleLength = 20;
+export const minDescriptionLength = 0;
+export const maxDescriptionLength = 20;
+
+
 export type TTask = {
 	id: string,
 	title: string,

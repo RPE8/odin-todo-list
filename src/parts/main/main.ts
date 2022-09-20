@@ -1,5 +1,5 @@
 import "./main.css";
-import {TTask} from "../../modules/task";
+import {TTask, minTitleLength, maxTitleLength, minDescriptionLength, maxDescriptionLength} from "../../modules/task";
 import {createElement} from "../../utils";
 
 const container = createElement("div", ["main__container", "container"])
@@ -17,8 +17,8 @@ export const render = (tasks: TTask[]): typeof container => {
 		</ul>
 		<button class="main__add-task add-task">Add task</button>
 		<div class="main__add-form add-form">
-			<input placeholder="Task name" class="add-form__title"></input>
-			<input placeholder="Task description" class="add-form__description"></input>
+			<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
+			<input maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
 			<button class="add-form__add">Add</button>
 			<button class="add-form__cancel">Cancel</button>
 		</div>

@@ -19,8 +19,14 @@ export const render = (tasks: TTask[]): typeof container => {
 		<div class="main__add-form add-form">
 			<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
 			<input maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
-			<button class="add-form__add">Add</button>
-			<button class="add-form__cancel">Cancel</button>
+			<div>		
+				<label for="add-form__date-start">Start date:</label>
+				<input type="date" id="add-form__date-start" class="add-form__date-start date-start" name="trip-start">
+			</div>
+			<div>	
+				<button class="add-form__add">Add</button>
+				<button class="add-form__cancel">Cancel</button>
+			</div>
 		</div>
 	</main>`;
 

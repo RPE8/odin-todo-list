@@ -127,7 +127,9 @@ const clearTaskInputs = (): void => {
 	if (formTaskDescriptionInput) formTaskDescriptionInput.value = "";
 } 
 
-
+const handleDateStartChange = (event: Event): void => {
+	console.log(formTaskDateStartInput.value);
+}
 
 let selectedProject: TProject;
 
@@ -135,16 +137,18 @@ const formProjectAddButton = document.querySelector(".project-menu__add-form .ad
 const formProjectCancelButton = document.querySelector(".project-menu__add-form .add-form__cancel") as HTMLButtonElement;
 const formProjectTitleInput = document.querySelector(".project-menu__add-form .add-form__title") as HTMLInputElement;
 
-const taskAddButton = document.querySelector(".main__add-task.add-task") as HTMLButtonElement;;
+const taskAddButton = document.querySelector(".main__add-task.add-task") as HTMLButtonElement;
 const formTaskAddButton = document.querySelector(".main__add-form .add-form__add") as HTMLButtonElement;;
 const formTaskCancelButton = document.querySelector(".main__add-form .add-form__cancel") as HTMLButtonElement;;
 const formTaskTitleInput = document.querySelector(".main__add-form .add-form__title") as HTMLInputElement;
 const formTaskDescriptionInput = document.querySelector(".main__add-form .add-form__description") as HTMLInputElement;
+const formTaskDateStartInput = document.querySelector("#add-form__date-start") as HTMLInputElement;
 
 formProjectAddButton?.addEventListener("click", handleProjectAddPress);
 formProjectCancelButton?.addEventListener("click", handleProjectCancelPress);
 formTaskAddButton?.addEventListener("click", handleTaskAddPress);
 formTaskCancelButton?.addEventListener("click", handleTaskCancelPress);
+formTaskDateStartInput?.addEventListener("change", handleDateStartChange);
 
 addProject({title: "1", description: "1", id: "1", tasks: [{id: "1", title: "1", date: "", description: ""}]});
 addProject({title: "2", description: "2", id: "2", tasks: [{id: "2", title: "2", date: "", description: ""}]});

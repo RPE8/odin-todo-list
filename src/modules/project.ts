@@ -1,4 +1,4 @@
-import {TTask, TTaskId,isTask, isValidTask, validationFields as taskValidationFields} from "./task";
+import {TTask, TTaskId, isValidTask, validationFields as taskValidationFields} from "./task";
 import {copyObj} from "../utils";
 
 export const minTitleLength = 0;

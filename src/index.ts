@@ -2,7 +2,7 @@ import "./index.css";
 import {render as renderHeader} from "./parts/header/header";
 import {renderTasklist, renderTasks} from "./parts/main/main";
 import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects, findProject, removeProject, isValidProject, TProjectId, TProject} from "./modules/project";
+import {addProject, getProjects, findProject, removeProject, isValidProject, addTask2Project, updateProject, TProjectId, TProject} from "./modules/project";
 import {createElement} from "./utils";
 
 import {format} from 'date-fns';
@@ -26,6 +26,16 @@ const sycnProjects = () => {
 		item.addEventListener("click", handleProjectPress);
 		item.querySelector(".project__remove")?.addEventListener("click", handleRemovePress);
 	});
+}
+
+const syncTasks = () => {
+	if (!selectedProject) return;
+	renderTasks(selectedProject.tasks);
+	// const projectRemoveBtns = Array.from(document.querySelectorAll(`.project-menu__projects-list > [data-id]`)) as HTMLLIElement[];
+	// projectRemoveBtns.forEach(item => {
+	// 	item.addEventListener("click", handleProjectPress);
+	// 	item.querySelector(".project__remove")?.addEventListener("click", handleRemovePress);
+	// });
 }
 
 const handleRemovePress = (event: Event) => {
@@ -70,7 +80,18 @@ const handleProjectCancelPress = () => {
 }
 
 const handleTaskAddPress = () => {
-		console.log(selectedProject);
+		const title = formTaskTitleInput?.value;
+		const description = formTaskDescriptionInput?.value;
+		if (!title) return;
+		const task = {
+			id: title,
+			title: title,
+			description: description,
+			date: "",
+		};
+
+		addTask2Project(selectedProject, task);
+		syncTasks();
 }
 
 let selectedProject: TProject;
@@ -91,5 +112,6 @@ formProjectAddButton?.addEventListener("click", handleProjectAddPress);
 formProjectCancelButton?.addEventListener("click", handleProjectCancelPress);
 formTaskAddButton?.addEventListener("click", handleTaskAddPress);
 
-addProject({title: "1", description: "2", id: "3", tasks: [{id: "1", title: "2", date: "", description: ""}]});
+addProject({title: "1", description: "1", id: "1", tasks: [{id: "1", title: "1", date: "", description: ""}]});
+addProject({title: "2", description: "2", id: "2", tasks: [{id: "2", title: "2", date: "", description: ""}]});
 sycnProjects();

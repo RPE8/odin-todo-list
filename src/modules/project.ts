@@ -19,6 +19,7 @@ type TProjectsGetter = () => TProject[];
 type TProjectFinder = TEntityFinder<TProject, TValidationFields>; 
 type TProjectRemover = (project: TProject | TProjectId) => TProject[];
 type TTaskAdder = (project: Readonly<TProject>, task: TTask) => TProject; 
+type TProjectUpdater = (project: TProject) => TProject[];
 type TProjectValidator = (project: TProject) => boolean;
 type TProjectsTaskValidator = (project: TProject, task: TTask) => boolean;
 type TProjectsTaskFinder = TEntityFinder<TTask, TValidationFields>;
@@ -89,12 +90,23 @@ export const findTask:TProjectsTaskFinder = (taskLook4, tasks) => {
 }
 
 export const addTask2Project: TTaskAdder = (project, task) => {
-	if (!isTask(task)) {
+	if (!validateTaskWithinProject(project, task)) {
 		throw new Error("not a valid task");
 	}
-	const projectCopy = copyObj<TProject>(project);
-	projectCopy.tasks.push(task);
-	return projectCopy;
+
+	
+	project.tasks.push(task);
+	return project;
+}
+
+export const updateProject: TProjectUpdater = (project) => {
+	const replaceIndex = projects.findIndex((projectCopy) => projectCopy.id === project.id);
+	if (replaceIndex === -1) {
+		throw new Error("no such project exists");
+	} 
+
+	projects[replaceIndex] = project;
+	return projects;
 }
 
 export const isValidProject: TProjectValidator = (project) => {
@@ -103,6 +115,6 @@ export const isValidProject: TProjectValidator = (project) => {
 }
 
 export const validateTaskWithinProject: TProjectsTaskValidator = (project, task) => {
-	if (!isValidTask(task) || findTask(task, project.tasks).length) return false;
+	if (!isProject(project) || !isValidTask(task) || findTask(task, project.tasks).length) return false;
 	return true;
 }

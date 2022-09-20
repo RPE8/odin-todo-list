@@ -1,5 +1,5 @@
 import "./aside.css";
-import {TProject} from "../../modules/project";
+import {TProject, minTitleLength, maxTitleLength} from "../../modules/project";
 import {createElement} from "../../utils";
 
 const container: HTMLElement = createElement("div", ["aside__container", "container"])
@@ -45,7 +45,7 @@ const preparePorjectsMenuContentHTML = (projects: TProject[]): string => {
 	return `<ul class="project-menu__projects-list menu">${prepareProjectsHTML(projects)}</ul>
 	<button class="project-menu__add">Add Project</button>
 	<div class="project-menu__add-form add-form">
-		<input placeholder="Project name" class="add-form__title"></input>
+		<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Project name" class="add-form__title"></input>
 		<button class="add-form__add">Add</button>
 		<button class="add-form__cancel">Cancel</button>
 	</div>`

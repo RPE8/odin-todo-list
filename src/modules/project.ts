@@ -1,6 +1,9 @@
 import {TTask, isTask, isValidTask, validationFields as taskValidationFields} from "./task";
 import {copyObj} from "../utils";
 
+export const minTitleLength = 0;
+export const maxTitleLength = 20;
+
 export type TProject = {
 	id: TProjectId,
 	title: string,
@@ -111,7 +114,7 @@ export const updateProject: TProjectUpdater = (project) => {
 
 export const isValidProject: TProjectValidator = (project) => {
 	const trimedTitle = project.title.trim();
-	return isProject(project) && trimedTitle.length > 0 && trimedTitle.length < 20 && findProject(project).length === 0;
+	return isProject(project) && trimedTitle.length > minTitleLength && trimedTitle.length < maxTitleLength && findProject(project).length === 0;
 }
 
 export const validateTaskWithinProject: TProjectsTaskValidator = (project, task) => {

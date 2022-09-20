@@ -1,155 +1,195 @@
-import "./index.css";
-import {render as renderHeader} from "./parts/header/header";
-import {renderTasklist, renderTasks} from "./parts/main/main";
-import {renderToolbar, renderProjects} from "./parts/aside/aside";
-import {addProject, getProjects, findProject, removeProject, isValidProject, addTask2Project, TProjectId, TProject, removeTaskFromProject} from "./modules/project";
-import {TTaskId} from "./modules/task";
-import {createElement} from "./utils";
+import './index.css';
+import { render as renderHeader } from './parts/header/header';
+import { renderTasklist, renderTasks } from './parts/main/main';
+import { renderToolbar, renderProjects } from './parts/aside/aside';
+import {
+  addProject,
+  getProjects,
+  findProject,
+  removeProject,
+  isValidProject,
+  addTask2Project,
+  TProjectId,
+  TProject,
+  removeTaskFromProject
+} from './modules/project';
+import { TTaskId } from './modules/task';
+import { createElement } from './utils';
 
-import {format} from 'date-fns';
-
-const body = document.querySelector("body");
+const body = document.querySelector('body');
 
 function render(): void {
-	if (!body) throw new Error("err");
+  if (!body) throw new Error('err');
 
-	const content = createElement("div", "content");
-	content.append(renderHeader(), renderTasklist([]), renderToolbar([]));
-	body.append(content);
+  const content = createElement('div', 'content');
+  content.append(renderHeader(), renderTasklist([]), renderToolbar([]));
+  body.append(content);
 }
 
 render();
 
 const syncProjects = (): void => {
-	renderProjects(getProjects());
-	const projectRemoveBtns = Array.from(document.querySelectorAll(`.project-menu__projects-list > [data-id]`)) as HTMLLIElement[];
-	projectRemoveBtns.forEach(item => {
-		item.addEventListener("click", handleProjectPress);
-		item.querySelector(".project__remove")?.addEventListener("click", handleRemovePress);
-	});
-}
+  renderProjects(getProjects());
+  const projectRemoveBtns = Array.from(
+    document.querySelectorAll(`.project-menu__projects-list > [data-id]`)
+  ) as HTMLLIElement[];
+  projectRemoveBtns.forEach((item) => {
+    item.addEventListener('click', handleProjectPress);
+    item
+      .querySelector('.project__remove')
+      ?.addEventListener('click', handleRemovePress);
+  });
+};
 
 const syncTasks = (): void => {
-	if (!selectedProject) return;
-	renderTasks(selectedProject.tasks);
-	const tasksRemoveBtns = Array.from(document.querySelectorAll(`.task-list .task__remove`)) as HTMLLIElement[];
-	tasksRemoveBtns.forEach(item => {
-		item.addEventListener("click", handleTaskRemovePress);
-	});
-}
+  if (!selectedProject) return;
+  renderTasks(selectedProject.tasks);
+  const tasksRemoveBtns = Array.from(
+    document.querySelectorAll(`.task-list .task__remove`)
+  ) as HTMLLIElement[];
+  tasksRemoveBtns.forEach((item) => {
+    item.addEventListener('click', handleTaskRemovePress);
+  });
+};
 
 const handleTaskRemovePress = (event: Event): void => {
-	const currentTarget = event.currentTarget as HTMLButtonElement;
-	if (!currentTarget) return;
-	const parent = currentTarget.parentElement as HTMLLIElement;
-	const id = parent.dataset.id as TTaskId;
-	if (id) {
-		removeTaskFromProject(selectedProject, id);
-		syncTasks();
-	}
-}
+  const currentTarget = event.currentTarget as HTMLButtonElement;
+  if (!currentTarget) return;
+  const parent = currentTarget.parentElement as HTMLLIElement;
+  const id = parent.dataset.id as TTaskId;
+  if (id) {
+    removeTaskFromProject(selectedProject, id);
+    syncTasks();
+  }
+};
 
 const handleRemovePress = (event: Event): void => {
-	event.stopPropagation();
-	const currentTarget = event.currentTarget as HTMLButtonElement;
-	const parent = currentTarget.parentElement as HTMLLIElement;
-	const id = parent.dataset.id as TProjectId;
-	if (id) {
-		removeProject(id);
-		syncProjects();
-	}
-}
+  event.stopPropagation();
+  const currentTarget = event.currentTarget as HTMLButtonElement;
+  const parent = currentTarget.parentElement as HTMLLIElement;
+  const id = parent.dataset.id as TProjectId;
+  if (id) {
+    removeProject(id);
+    syncProjects();
+  }
+};
 
 const handleProjectPress = (event: Event): void => {
-	const currentTarget = event.currentTarget as HTMLLIElement;
-	const id = currentTarget.dataset.id as TProjectId;
-	const project = findProject({id})[0];
-	selectedProject = project;
-	syncTasks();
-}
+  const currentTarget = event.currentTarget as HTMLLIElement;
+  const id = currentTarget.dataset.id as TProjectId;
+  const project = findProject({ id })[0];
+  selectedProject = project;
+  syncTasks();
+};
 
 const handleProjectAddPress = (): void => {
-	try {
-		const title = formProjectTitleInput?.value;
-		if (!title) return;
-		const project = {
-			id: title,
-			title: title,
-			description: "",
-			tasks: [],
-		};
-	
-		if (!isValidProject(project)) return;
-	
-		addProject(project);
-		syncProjects();
-		clearProjectInputs();
-	} catch(err) {
-		clearTaskInputs();
-	}
-}
+  try {
+    const title = formProjectTitleInput?.value;
+    if (!title) return;
+    const project = {
+      id: title,
+      title: title,
+      description: '',
+      tasks: []
+    };
+
+    if (!isValidProject(project)) return;
+
+    addProject(project);
+    syncProjects();
+    clearProjectInputs();
+  } catch (err) {
+    clearTaskInputs();
+  }
+};
 
 const handleProjectCancelPress = (): void => {
-	clearProjectInputs();
-}
+  clearProjectInputs();
+};
 
 const clearProjectInputs = (): void => {
-	if (formProjectTitleInput) formProjectTitleInput.value = "";
-}
+  if (formProjectTitleInput) formProjectTitleInput.value = '';
+};
 
 const handleTaskAddPress = (): void => {
-	try {
-		const title = formTaskTitleInput?.value;
-		const description = formTaskDescriptionInput?.value;
-		if (!title) return;
-		const task = {
-			id: title,
-			title: title,
-			description: description,
-			date: "",
-		};
+  try {
+    const title = formTaskTitleInput?.value;
+    const description = formTaskDescriptionInput?.value;
+    if (!title) return;
+    const task = {
+      id: title,
+      title: title,
+      description: description,
+      date: ''
+    };
 
-		addTask2Project(selectedProject, task);
-		syncTasks();
-		clearTaskInputs();
-	} catch (err) {
-		console.error(err);
-		clearTaskInputs();
-	}
-}
+    addTask2Project(selectedProject, task);
+    syncTasks();
+    clearTaskInputs();
+  } catch (err) {
+    console.error(err);
+    clearTaskInputs();
+  }
+};
 
 const handleTaskCancelPress = (): void => {
-	clearTaskInputs();
-}
+  clearTaskInputs();
+};
 
 const clearTaskInputs = (): void => {
-	if (formTaskTitleInput) formTaskTitleInput.value = "";
-	if (formTaskDescriptionInput) formTaskDescriptionInput.value = "";
-} 
+  if (formTaskTitleInput) formTaskTitleInput.value = '';
+  if (formTaskDescriptionInput) formTaskDescriptionInput.value = '';
+};
 
-const handleDateStartChange = (event: Event): void => {
-	console.log(formTaskDateStartInput.value);
-}
+const handleDateStartChange = (): void => {
+  console.log(formTaskDateStartInput.value);
+};
 
 let selectedProject: TProject;
 
-const formProjectAddButton = document.querySelector(".project-menu__add-form .add-form__add") as HTMLButtonElement;;
-const formProjectCancelButton = document.querySelector(".project-menu__add-form .add-form__cancel") as HTMLButtonElement;
-const formProjectTitleInput = document.querySelector(".project-menu__add-form .add-form__title") as HTMLInputElement;
+const formProjectAddButton = document.querySelector(
+  '.project-menu__add-form .add-form__add'
+) as HTMLButtonElement;
+const formProjectCancelButton = document.querySelector(
+  '.project-menu__add-form .add-form__cancel'
+) as HTMLButtonElement;
+const formProjectTitleInput = document.querySelector(
+  '.project-menu__add-form .add-form__title'
+) as HTMLInputElement;
 
-const taskAddButton = document.querySelector(".main__add-task.add-task") as HTMLButtonElement;
-const formTaskAddButton = document.querySelector(".main__add-form .add-form__add") as HTMLButtonElement;;
-const formTaskCancelButton = document.querySelector(".main__add-form .add-form__cancel") as HTMLButtonElement;;
-const formTaskTitleInput = document.querySelector(".main__add-form .add-form__title") as HTMLInputElement;
-const formTaskDescriptionInput = document.querySelector(".main__add-form .add-form__description") as HTMLInputElement;
-const formTaskDateStartInput = document.querySelector("#add-form__date-start") as HTMLInputElement;
+// const taskAddButton = document.querySelector(".main__add-task.add-task") as HTMLButtonElement;
+const formTaskAddButton = document.querySelector(
+  '.main__add-form .add-form__add'
+) as HTMLButtonElement;
+const formTaskCancelButton = document.querySelector(
+  '.main__add-form .add-form__cancel'
+) as HTMLButtonElement;
+const formTaskTitleInput = document.querySelector(
+  '.main__add-form .add-form__title'
+) as HTMLInputElement;
+const formTaskDescriptionInput = document.querySelector(
+  '.main__add-form .add-form__description'
+) as HTMLInputElement;
+const formTaskDateStartInput = document.querySelector(
+  '#add-form__date-start'
+) as HTMLInputElement;
 
-formProjectAddButton?.addEventListener("click", handleProjectAddPress);
-formProjectCancelButton?.addEventListener("click", handleProjectCancelPress);
-formTaskAddButton?.addEventListener("click", handleTaskAddPress);
-formTaskCancelButton?.addEventListener("click", handleTaskCancelPress);
-formTaskDateStartInput?.addEventListener("change", handleDateStartChange);
+formProjectAddButton?.addEventListener('click', handleProjectAddPress);
+formProjectCancelButton?.addEventListener('click', handleProjectCancelPress);
+formTaskAddButton?.addEventListener('click', handleTaskAddPress);
+formTaskCancelButton?.addEventListener('click', handleTaskCancelPress);
+formTaskDateStartInput?.addEventListener('change', handleDateStartChange);
 
-addProject({title: "1", description: "1", id: "1", tasks: [{id: "1", title: "1", date: "", description: ""}]});
-addProject({title: "2", description: "2", id: "2", tasks: [{id: "2", title: "2", date: "", description: ""}]});
+addProject({
+  title: '1',
+  description: '1',
+  id: '1',
+  tasks: [{ id: '1', title: '1', date: '', description: '' }]
+});
+addProject({
+  title: '2',
+  description: '2',
+  id: '2',
+  tasks: [{ id: '2', title: '2', date: '', description: '' }]
+});
 syncProjects();

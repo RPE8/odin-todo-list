@@ -6,7 +6,9 @@ specifiers:
   css-loader: ^6.7.1
   date-fns: ^2.29.3
   eslint: ^8.23.1
+  eslint-config-prettier: ^8.5.0
   html-webpack-plugin: ^5.5.0
+  prettier: ^2.7.1
   style-loader: ^3.3.1
   ts-loader: ^9.3.1
   typescript: ^4.8.3
@@ -22,7 +24,9 @@ devDependencies:
   '@typescript-eslint/parser': 5.37.0_irgkl5vooow2ydyo6aokmferha
   css-loader: 6.7.1_webpack@5.74.0
   eslint: 8.23.1
+  eslint-config-prettier: 8.5.0_eslint@8.23.1
   html-webpack-plugin: 5.5.0_webpack@5.74.0
+  prettier: 2.7.1
   style-loader: 3.3.1_webpack@5.74.0
   ts-loader: 9.3.1_kb3egcnme7w23lfa5xodfjfhge
   typescript: 4.8.3
@@ -1109,6 +1113,15 @@ packages:
   /escape-string-regexp/4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-config-prettier/8.5.0_eslint@8.23.1:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.23.1
     dev: true
 
   /eslint-scope/5.1.1:
@@ -2261,6 +2274,12 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /pretty-error/4.0.0:

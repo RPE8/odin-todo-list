@@ -22,5 +22,5 @@ export const isTask = (task: TTask): task is TTask => {
 
 export const isValidTask: TTaskValidator = (task) => {
 	const trimedTitle = task.title.trim();
-	return isTask(task) && trimedTitle.length > 0 && trimedTitle.length < 20;
+	return isTask(task) && trimedTitle.length > minTitleLength && trimedTitle.length < maxTitleLength;
 }

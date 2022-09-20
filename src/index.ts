@@ -77,6 +77,7 @@ const handleProjectAddPress = () => {
 		clearProjectInputs();
 	} catch(err) {
 		console.error(err);
+		clearTaskInputs();
 	}
 }
 
@@ -105,6 +106,7 @@ const handleTaskAddPress = () => {
 		clearTaskInputs();
 	} catch (err) {
 		console.error(err);
+		clearTaskInputs();
 	}
 }
 

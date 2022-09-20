@@ -73,9 +73,14 @@ const handleProjectAddPress = () => {
 
 	addProject(project);
 	sycnProjects();
+	clearProjectInputs();
 }
 
 const handleProjectCancelPress = () => {
+	clearProjectInputs();
+}
+
+const clearProjectInputs = () => {
 	if (formProjectTitleInput) formProjectTitleInput.value = "";
 }
 
@@ -92,7 +97,19 @@ const handleTaskAddPress = () => {
 
 		addTask2Project(selectedProject, task);
 		syncTasks();
+		clearTaskInputs();
 }
+
+const handleTaskCancelPress = () => {
+	clearTaskInputs();
+}
+
+const clearTaskInputs = () => {
+	if (formTaskTitleInput) formTaskTitleInput.value = "";
+	if (formTaskDescriptionInput) formTaskDescriptionInput.value = "";
+} 
+
+
 
 let selectedProject: TProject;
 
@@ -111,6 +128,7 @@ console.log(taskAddButton, formTaskAddButton, formTaskCancelButton, formTaskTitl
 formProjectAddButton?.addEventListener("click", handleProjectAddPress);
 formProjectCancelButton?.addEventListener("click", handleProjectCancelPress);
 formTaskAddButton?.addEventListener("click", handleTaskAddPress);
+formTaskCancelButton?.addEventListener("click", handleTaskCancelPress);
 
 addProject({title: "1", description: "1", id: "1", tasks: [{id: "1", title: "1", date: "", description: ""}]});
 addProject({title: "2", description: "2", id: "2", tasks: [{id: "2", title: "2", date: "", description: ""}]});

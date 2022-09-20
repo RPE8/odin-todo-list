@@ -20,7 +20,7 @@ function render(): void {
 
 render();
 
-const syncProjects = () => {
+const syncProjects = (): void => {
 	renderProjects(getProjects());
 	const projectRemoveBtns = Array.from(document.querySelectorAll(`.project-menu__projects-list > [data-id]`)) as HTMLLIElement[];
 	projectRemoveBtns.forEach(item => {
@@ -29,7 +29,7 @@ const syncProjects = () => {
 	});
 }
 
-const syncTasks = () => {
+const syncTasks = (): void => {
 	if (!selectedProject) return;
 	renderTasks(selectedProject.tasks);
 	const tasksRemoveBtns = Array.from(document.querySelectorAll(`.task-list .task__remove`)) as HTMLLIElement[];
@@ -38,7 +38,7 @@ const syncTasks = () => {
 	});
 }
 
-const handleTaskRemovePress = (event: Event) => {
+const handleTaskRemovePress = (event: Event): void => {
 	const currentTarget = event.currentTarget as HTMLButtonElement;
 	if (!currentTarget) return;
 	const parent = currentTarget.parentElement as HTMLLIElement;
@@ -49,7 +49,7 @@ const handleTaskRemovePress = (event: Event) => {
 	}
 }
 
-const handleRemovePress = (event: Event) => {
+const handleRemovePress = (event: Event): void => {
 	event.stopPropagation();
 	const currentTarget = event.currentTarget as HTMLButtonElement;
 	const parent = currentTarget.parentElement as HTMLLIElement;
@@ -60,17 +60,15 @@ const handleRemovePress = (event: Event) => {
 	}
 }
 
-const handleProjectPress = (event: Event) => {
+const handleProjectPress = (event: Event): void => {
 	const currentTarget = event.currentTarget as HTMLLIElement;
 	const id = currentTarget.dataset.id as TProjectId;
 	const project = findProject({id})[0];
 	selectedProject = project;
 	syncTasks();
-	console.log(project?.tasks);
-	console.log("display tasks");
 }
 
-const handleProjectAddPress = () => {
+const handleProjectAddPress = (): void => {
 	try {
 		const title = formProjectTitleInput?.value;
 		if (!title) return;
@@ -87,20 +85,19 @@ const handleProjectAddPress = () => {
 		syncProjects();
 		clearProjectInputs();
 	} catch(err) {
-		console.error(err);
 		clearTaskInputs();
 	}
 }
 
-const handleProjectCancelPress = () => {
+const handleProjectCancelPress = (): void => {
 	clearProjectInputs();
 }
 
-const clearProjectInputs = () => {
+const clearProjectInputs = (): void => {
 	if (formProjectTitleInput) formProjectTitleInput.value = "";
 }
 
-const handleTaskAddPress = () => {
+const handleTaskAddPress = (): void => {
 	try {
 		const title = formTaskTitleInput?.value;
 		const description = formTaskDescriptionInput?.value;
@@ -121,11 +118,11 @@ const handleTaskAddPress = () => {
 	}
 }
 
-const handleTaskCancelPress = () => {
+const handleTaskCancelPress = (): void => {
 	clearTaskInputs();
 }
 
-const clearTaskInputs = () => {
+const clearTaskInputs = (): void => {
 	if (formTaskTitleInput) formTaskTitleInput.value = "";
 	if (formTaskDescriptionInput) formTaskDescriptionInput.value = "";
 } 
@@ -134,17 +131,15 @@ const clearTaskInputs = () => {
 
 let selectedProject: TProject;
 
-const formProjectAddButton = document.querySelector(".project-menu__add-form .add-form__add");
-const formProjectCancelButton = document.querySelector(".project-menu__add-form .add-form__cancel") ;
+const formProjectAddButton = document.querySelector(".project-menu__add-form .add-form__add") as HTMLButtonElement;;
+const formProjectCancelButton = document.querySelector(".project-menu__add-form .add-form__cancel") as HTMLButtonElement;
 const formProjectTitleInput = document.querySelector(".project-menu__add-form .add-form__title") as HTMLInputElement;
 
-const taskAddButton = document.querySelector(".main__add-task.add-task");
-const formTaskAddButton = document.querySelector(".main__add-form .add-form__add") ;
-const formTaskCancelButton = document.querySelector(".main__add-form .add-form__cancel") ;
+const taskAddButton = document.querySelector(".main__add-task.add-task") as HTMLButtonElement;;
+const formTaskAddButton = document.querySelector(".main__add-form .add-form__add") as HTMLButtonElement;;
+const formTaskCancelButton = document.querySelector(".main__add-form .add-form__cancel") as HTMLButtonElement;;
 const formTaskTitleInput = document.querySelector(".main__add-form .add-form__title") as HTMLInputElement;
 const formTaskDescriptionInput = document.querySelector(".main__add-form .add-form__description") as HTMLInputElement;
-
-console.log(taskAddButton, formTaskAddButton, formTaskCancelButton, formTaskTitleInput, formTaskDescriptionInput);
 
 formProjectAddButton?.addEventListener("click", handleProjectAddPress);
 formProjectCancelButton?.addEventListener("click", handleProjectCancelPress);

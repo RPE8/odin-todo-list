@@ -55,7 +55,6 @@ export const removeProject:TProjectRemover = (project) => {
 		projects = copyObj(projects).filter((prj: TProject) => prj.id !== project.id);
 	}
 
-
 	return projects;
 }
 
@@ -98,7 +97,6 @@ export const addTask2Project: TTaskAdder = (project, task) => {
 		throw new Error("not a valid task");
 	}
 
-	
 	project.tasks.push(task);
 	return project;
 }

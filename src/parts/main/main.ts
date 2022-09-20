@@ -2,7 +2,7 @@ import "./main.css";
 import {TTask, minTitleLength, maxTitleLength, minDescriptionLength, maxDescriptionLength} from "../../modules/task";
 import {createElement} from "../../utils";
 
-const container = createElement("div", ["main__container", "container"])
+const container = createElement("div", ["main__container", "container"]) as HTMLDivElement;
 
 export const renderTasklist = (tasks: TTask[]): typeof container => {
 	return render(tasks);

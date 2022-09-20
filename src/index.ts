@@ -120,7 +120,7 @@ const handleTaskAddPress = (): void => {
       id: title,
       title: title,
       description: description,
-      date: ''
+      date: formTaskDateStartInput.value
     };
 
     addTask2Project(selectedProject, task);
@@ -139,10 +139,11 @@ const handleTaskCancelPress = (): void => {
 const clearTaskInputs = (): void => {
   if (formTaskTitleInput) formTaskTitleInput.value = '';
   if (formTaskDescriptionInput) formTaskDescriptionInput.value = '';
+	if (formTaskDateStartInput) formTaskDateStartInput.value = '';
 };
 
 const handleDateStartChange = (): void => {
-  console.log(formTaskDateStartInput.value);
+  
 };
 
 let selectedProject: TProject;

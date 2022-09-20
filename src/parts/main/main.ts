@@ -6,6 +6,7 @@ import {
   minDescriptionLength,
   maxDescriptionLength
 } from '../../modules/task';
+import {format, isValid} from 'date-fns'
 import { createElement } from '../../utils';
 
 const container = createElement('div', [
@@ -59,9 +60,13 @@ const prepareTasksHTML = (tasks: TTask[]): string => {
 };
 
 const prepareTaskHTML = (task: TTask): string => {
+	debugger;
+	const date = new Date(task.date);
+	
   const html = `<li class="task-list__task task" data-id="${task.id}">
 		<span class="task__title">${task.title}</span>
 		<span class="description">${task.description}</span>
+		<span class="description">${isValid(date) ? format(date, "dd MM yyyy") : ""}</span>
 		<button class="task__remove">
 			<span class="material-icons header__logo md-24">list_alt</span>
 		</button>

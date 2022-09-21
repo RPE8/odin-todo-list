@@ -101,7 +101,9 @@ const handleProjectAddPress = (event: SubmitEvent): void => {
     addProject(project);
     syncProjects();
     clearProjectInputs();
-  } catch (err) {}
+  } catch (err) {
+		alert(err);
+	}
 };
 
 const handleProjectCancelPress = (): void => {
@@ -131,7 +133,7 @@ const handleTaskAddPress = (event: SubmitEvent): void => {
     renderProjectTasksPart(selectedProject, selectedProject.tasks);
     formTask.reset();
   } catch (err) {
-    console.error(err);
+    alert(err);
   }
 };
 

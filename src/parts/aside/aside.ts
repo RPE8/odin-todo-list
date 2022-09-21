@@ -23,6 +23,11 @@ const render = (projects: TProject[] = []): typeof container => {
 			<li>This Week<li>
 		</menu>
 		<h3 class="aside__projects-title projects-title">Projects</h3>
+		<form class="project-menu__add-form add-form">
+			<input required maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Project name" class="add-form__title"></input>
+			<button class="add-form__add">Add</button>
+			<button class="add-form__cancel">Cancel</button>
+		</form>
 		<menu class="aside__projects-menu projects-menu menu">
 			${preparePorjectsMenuContentHTML(projects)}
 		</menu>
@@ -49,11 +54,6 @@ const prepareProjectHTML = (project: TProject): string => {
 
 const preparePorjectsMenuContentHTML = (projects: TProject[]): string => {
   return `
-	<div class="project-menu__add-form add-form">
-		<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Project name" class="add-form__title"></input>
-		<button class="add-form__add">Add</button>
-		<button class="add-form__cancel">Cancel</button>
-	</div>
 	<ul class="project-menu__projects-list menu">${prepareProjectsHTML(
     projects
   )}</ul>`;

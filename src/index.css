@@ -74,3 +74,7 @@ html, body {
 .aside__container {
 	grid-area: toolbar;
 }
+
+.invisible {
+	display: none !important;
+}

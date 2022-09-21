@@ -6,6 +6,7 @@ import {
   minDescriptionLength,
   maxDescriptionLength
 } from '../../modules/task';
+import { TProject } from '../../modules/project';
 import { format, isValid } from 'date-fns';
 import { createElement } from '../../utils';
 
@@ -18,10 +19,18 @@ export const renderTasklist = (tasks: TTask[]): typeof container => {
   return render(tasks);
 };
 
-export const render = (tasks: TTask[]): typeof container => {
+export const render = (
+  tasks: TTask[],
+  project?: TProject
+): typeof container => {
   const html = `<main class="main">
-		<h2 class="main__title">Tasks</h2>
-		<div class="main__add-form add-form">
+		<div class="main__selected-project-container">
+			<h2 class="main__selected-project-title">${createProjectTitle(
+        project?.title
+      )}</h3>
+		</div>
+		
+		<div class="main__add-form add-form invisible">
 			<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
 			<input maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
 			<div>		
@@ -29,8 +38,8 @@ export const render = (tasks: TTask[]): typeof container => {
 				<input type="date" id="add-form__date-start" class="add-form__date-start date-start" name="trip-start">
 			</div>
 			<div>	
-				<button class="add-form__add">Add</button>
-				<button class="add-form__cancel">Cancel</button>
+				<button class="add-form__add">Add Task</button>
+				<button class="add-form__cancel">Clear Form</button>
 			</div>
 		</div>
 		<ul class="main__task-list task-list">
@@ -47,6 +56,29 @@ const prepareTasksListHTML = (tasks: TTask[]): string => {
   return html;
 };
 
+export const renderProjectTasksPart = (
+  project: TProject,
+  tasks: TTask[]
+): void => {
+  renderSelectedProject(project);
+  renderTasks(tasks);
+  const taskAddForm = document.querySelector('.main__add-form');
+  if (!project) {
+    taskAddForm?.classList.add('invisible');
+  } else {
+    taskAddForm?.classList.remove('invisible');
+  }
+};
+
+export const renderSelectedProject = (project: TProject): void => {
+  const selectedProjectTitle = document.querySelector(
+    '.main__selected-project-title'
+  );
+  if (project && selectedProjectTitle) {
+    selectedProjectTitle.textContent = createProjectTitle(project.title);
+  }
+};
+
 export const renderTasks = (tasks: TTask[]): void => {
   const tasksList = document.querySelector('.main__task-list');
   if (!tasksList) return;
@@ -59,7 +91,6 @@ const prepareTasksHTML = (tasks: TTask[]): string => {
 };
 
 const prepareTaskHTML = (task: TTask): string => {
-  debugger;
   const date = new Date(task.date);
 
   const html = `<li class="task-list__task task" data-id="${task.id}">
@@ -71,4 +102,9 @@ const prepareTaskHTML = (task: TTask): string => {
 		</button>
 	</li>`;
   return html;
+};
+
+const createProjectTitle = (title: unknown): string => {
+  if (typeof title === 'string') return `Project: ${title}`;
+  return `Please, select project`;
 };

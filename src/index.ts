@@ -1,6 +1,6 @@
 import './index.css';
 import { render as renderHeader } from './parts/header/header';
-import { renderTasklist, renderTasks } from './parts/main/main';
+import { renderTasklist, renderProjectTasksPart } from './parts/main/main';
 import { renderToolbar, renderProjects } from './parts/aside/aside';
 import {
   addProject,
@@ -43,7 +43,7 @@ const syncProjects = (): void => {
 
 const syncTasks = (): void => {
   if (!selectedProject) return;
-  renderTasks(selectedProject.tasks);
+  renderProjectTasksPart(selectedProject, selectedProject.tasks);
   const tasksRemoveBtns = Array.from(
     document.querySelectorAll(`.task-list .task__remove`)
   ) as HTMLLIElement[];
@@ -59,7 +59,7 @@ const handleTaskRemovePress = (event: Event): void => {
   const id = parent.dataset.id as TTaskId;
   if (id) {
     removeTaskFromProject(selectedProject, id);
-    syncTasks();
+    renderProjectTasksPart(selectedProject, selectedProject.tasks);
   }
 };
 
@@ -79,7 +79,7 @@ const handleProjectPress = (event: Event): void => {
   const id = currentTarget.dataset.id as TProjectId;
   const project = findProject({ id })[0];
   selectedProject = project;
-  syncTasks();
+  renderProjectTasksPart(selectedProject, selectedProject.tasks);
 };
 
 const handleProjectAddPress = (): void => {
@@ -124,7 +124,7 @@ const handleTaskAddPress = (): void => {
     };
 
     addTask2Project(selectedProject, task);
-    syncTasks();
+    renderProjectTasksPart(selectedProject, selectedProject.tasks);
     clearTaskInputs();
   } catch (err) {
     console.error(err);

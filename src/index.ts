@@ -82,8 +82,9 @@ const handleProjectPress = (event: Event): void => {
   renderProjectTasksPart(selectedProject, selectedProject.tasks);
 };
 
-const handleProjectAddPress = (): void => {
+const handleProjectAddPress = (event: SubmitEvent): void => {
   try {
+		event.preventDefault();
     const title = formProjectTitleInput?.value;
     if (!title) return;
     const project = {
@@ -111,11 +112,14 @@ const clearProjectInputs = (): void => {
   if (formProjectTitleInput) formProjectTitleInput.value = '';
 };
 
-const handleTaskAddPress = (): void => {
+const handleTaskAddPress = (event: SubmitEvent): void => {
   try {
+		event.preventDefault();
+		const validity = formTask.checkValidity();
+		formTask.reportValidity();
     const title = formTaskTitleInput?.value;
     const description = formTaskDescriptionInput?.value;
-    if (!title) return;
+    if (!validity) return;
     const task = {
       id: title,
       title: title,
@@ -125,7 +129,7 @@ const handleTaskAddPress = (): void => {
 
     addTask2Project(selectedProject, task);
     renderProjectTasksPart(selectedProject, selectedProject.tasks);
-    clearTaskInputs();
+		formTask.reset();
   } catch (err) {
     console.error(err);
     clearTaskInputs();
@@ -156,7 +160,7 @@ const formProjectTitleInput = document.querySelector(
   '.project-menu__add-form .add-form__title'
 ) as HTMLInputElement;
 
-// const taskAddButton = document.querySelector(".main__add-task.add-task") as HTMLButtonElement;
+const formTask = document.querySelector(".main__add-form") as HTMLFormElement;
 const formTaskAddButton = document.querySelector(
   '.main__add-form .add-form__add'
 ) as HTMLButtonElement;
@@ -172,6 +176,7 @@ const formTaskDescriptionInput = document.querySelector(
 const formTaskDateStartInput = document.querySelector(
   '#add-form__date-start'
 ) as HTMLInputElement;
+
 
 formProjectAddButton?.addEventListener('click', handleProjectAddPress);
 formProjectCancelButton?.addEventListener('click', handleProjectCancelPress);

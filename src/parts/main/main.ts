@@ -30,18 +30,18 @@ export const render = (
       )}</h3>
 		</div>
 		
-		<div class="main__add-form add-form invisible">
-			<input maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
-			<input maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
+		<form class="main__add-form add-form invisible">
+			<input required maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
+			<input required maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
 			<div>		
 				<label for="add-form__date-start">Start date:</label>
-				<input type="date" id="add-form__date-start" class="add-form__date-start date-start" name="trip-start">
+				<input required type="date" id="add-form__date-start" class="add-form__date-start date-start" name="trip-start">
 			</div>
 			<div>	
-				<button class="add-form__add">Add Task</button>
+				<button type="submit" class="add-form__add">Add Task</button>
 				<button class="add-form__cancel">Clear Form</button>
 			</div>
-		</div>
+		</form>
 		<ul class="main__task-list task-list">
 			${prepareTasksListHTML(tasks)}
 		</ul>

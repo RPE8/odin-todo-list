@@ -47,10 +47,6 @@
 	background-color: var(--color-3);
 }
 
-.task:hover .task__button {
-	display: flex;
-}
-
 .task + .task {
 	margin-top: 1rem;
 }
@@ -61,10 +57,10 @@
 }
 
 .task__button {
+	display: flex;
 	align-items: flex;
 	border: 0;
 	background: none;
-	display: none;
 }
 
 .task_info-wrapper {

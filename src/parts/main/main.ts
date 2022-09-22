@@ -31,11 +31,11 @@ export const render = (
 		</div>
 		
 		<form class="main__add-form add-form invisible">
-			<input required maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
-			<input required maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
+			<input data-formPart="task-title" required maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" class="add-form__title"></input>
+			<input data-formPart="task-description" required maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" class="add-form__description"></input>
 			<div>		
 				<label for="add-form__date-start">Start date:</label>
-				<input required type="date" id="add-form__date-start" class="add-form__date-start date-start" name="trip-start">
+				<input data-formPart="task-date" required type="date" id="add-form__date-start" class="add-form__date-start date-start" name="trip-start">
 			</div>
 			<div>	
 				<button type="submit" class="add-form__add">Add Task</button>
@@ -99,25 +99,31 @@ const prepareTaskHTML = (task: TTask): string => {
 				<span class="task__title">${task.title}</span>
 				<span class="task__description">${task.description}</span>
 				<span class="task__date">${
-					isValid(date) ? format(date, 'dd MM yyyy') : ''
-				}</span>
+          isValid(date) ? format(date, 'dd MM yyyy') : ''
+        }</span>
 			</div>
-			<button class="task__edit task__button edit">
+			<button data-id="${task.id}" class="task__edit task__button edit">
 				<span class="material-icons header__logo md-24">edit</span>
 			</button>
-			<button class="task__remove task__button remove">
+			<button data-id="${task.id}" class="task__remove task__button remove">
 				<span class="material-icons header__logo md-24">close</span>
 			</button>
 		</div>
 		<form class="task__edit-wrapper invisible">
-			<div class="task_info-wrapper">
-				<input value="${task.title}"></input>
-				<input value="${task.description}"></input>
-				<input required type="date" class="add-form__date-start date-start" name="trip-start" value="${task.date}">
+			<div>
+				<input data-formPart="task-title" required maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Task name" value="${
+    task.title
+  }"></input>
+				<input data-formPart="task-description" required maxlength="${maxDescriptionLength}" minlength="${minDescriptionLength}" placeholder="Task description" value="${
+    task.description
+  }"></input>
+				<input data-formPart="task-date" required type="date" class="add-form__date-start date-start" name="trip-start" value="${
+          task.date
+        }">
 			</div>
 			<div>	
-				<button type="submit" class="task__save save">Save</button>
-				<button class="task__cancel cancel">Cancel</button>
+				<button data-id="${task.id}" type="submit" class="task__save save">Save</button>
+				<button data-id="${task.id}" class="task__cancel cancel">Cancel</button>
 			</div>
 		</form>
 	</li>`;

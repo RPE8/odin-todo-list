@@ -62,7 +62,6 @@
 	border: 0;
 	background: none;
 	display: none;
-	transition: display .2s;
 }
 
 .task_info-wrapper {

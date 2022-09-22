@@ -48,8 +48,12 @@
 	align-items: center;
 }
 
-.project__remove {
+.project:hover  .project__button{
 	display: flex;
+}
+
+.project__button {
+	display: none;
 	align-items: flex;
 	border: 0;
 	background: none;

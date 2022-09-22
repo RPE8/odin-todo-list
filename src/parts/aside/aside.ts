@@ -45,8 +45,8 @@ const prepareProjectHTML = (project: TProject): string => {
   const html = `<li class="project-list__project project" data-id="${project.id}">
 		<span class="material-icons header__logo md-24">list_alt</span>
 		<span>${project.title}</span>
-		<button class="project__remove remove">
-			<span class="material-icons material-symbols-outlined header__logo md-24">close</span>
+		<button class="project__remove project__button remove">
+			<span class="material-icons material-symbols-outlined md-24">close</span>
 		</button>
 	</li>`;
   return html;

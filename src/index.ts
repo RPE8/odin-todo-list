@@ -53,13 +53,14 @@ const syncTasks = (): void => {
 };
 
 const handleTaskRemovePress = (event: Event): void => {
+	debugger;
   const currentTarget = event.currentTarget as HTMLButtonElement;
   if (!currentTarget) return;
   const parent = currentTarget.parentElement as HTMLLIElement;
   const id = parent.dataset.id as TTaskId;
   if (id) {
     removeTaskFromProject(selectedProject, id);
-    renderProjectTasksPart(selectedProject, selectedProject.tasks);
+    syncTasks();
   }
 };
 
@@ -79,7 +80,7 @@ const handleProjectPress = (event: Event): void => {
   const id = currentTarget.dataset.id as TProjectId;
   const project = findProject({ id })[0];
   selectedProject = project;
-  renderProjectTasksPart(selectedProject, selectedProject.tasks);
+  syncTasks();
 };
 
 const handleProjectAddPress = (event: SubmitEvent): void => {
@@ -130,7 +131,7 @@ const handleTaskAddPress = (event: SubmitEvent): void => {
     };
 
     addTask2Project(selectedProject, task);
-    renderProjectTasksPart(selectedProject, selectedProject.tasks);
+    syncTasks();
     formTask.reset();
   } catch (err) {
     alert(err);
@@ -219,4 +220,4 @@ addProject({
   tasks: [{ id: '2', title: '2', date: '', description: '' }]
 });
 syncProjects();
-renderProjectTasksPart(selectedProject, selectedProject.tasks);
+syncTasks();

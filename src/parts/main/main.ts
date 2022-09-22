@@ -101,7 +101,10 @@ const prepareTaskHTML = (task: TTask): string => {
         isValid(date) ? format(date, 'dd MM yyyy') : ''
       }</span>
 		</div>
-		<button class="task__remove remove">
+		<button class="task__edit task__button edit ">
+			<span class="material-icons header__logo md-24">edit</span>
+		</button>
+		<button class="task__remove task__button remove">
 			<span class="material-icons header__logo md-24">close</span>
 		</button>
 	</li>`;

@@ -38,7 +38,6 @@
 .task {
 	display: flex;
 	align-items: start;
-	justify-content: space-between;
 	background-color: var(--color-2);
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 	border-radius: 5px;
@@ -50,7 +49,7 @@
 	background-color: var(--color-3);
 }
 
-.task:hover .task__remove {
+.task:hover .task__button {
 	display: flex;
 }
 
@@ -58,7 +57,7 @@
 	margin-top: 1rem;
 }
 
-.task__remove {
+.task__button {
 	align-items: flex;
 	border: 0;
 	background: none;
@@ -70,6 +69,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: .4rem;
+	margin-right: auto;
 }
 
 .task__title {

@@ -50,13 +50,34 @@ const syncTasks = (): void => {
   tasksRemoveBtns.forEach((item) => {
     item.addEventListener('click', handleTaskRemovePress);
   });
+
+	const tasksEditBtns = Array.from(
+    document.querySelectorAll(`.task-list .task__edit`)
+  ) as HTMLLIElement[];
+  tasksEditBtns.forEach((item) => {
+    item.addEventListener('click', handleTaskEditPress);
+  });
+
+	const tasksEditSaveBtns = Array.from(
+    document.querySelectorAll(`.task-list .task__save`)
+  ) as HTMLLIElement[];
+  tasksEditSaveBtns.forEach((item) => {
+    item.addEventListener('click', handleTaskEditSavePress);
+  });
+
+	const tasksEditCancelBtns = Array.from(
+    document.querySelectorAll(`.task-list .task__cancel`)
+  ) as HTMLLIElement[];
+  tasksEditCancelBtns.forEach((item) => {
+    item.addEventListener('click', handleTaskEditCancelPress);
+  });
 };
 
 const handleTaskRemovePress = (event: Event): void => {
 	debugger;
   const currentTarget = event.currentTarget as HTMLButtonElement;
   if (!currentTarget) return;
-  const parent = currentTarget.parentElement as HTMLLIElement;
+  const parent = currentTarget.parentElement!.parentElement as HTMLLIElement;
   const id = parent.dataset.id as TTaskId;
   if (id) {
     removeTaskFromProject(selectedProject, id);
@@ -141,6 +162,35 @@ const handleTaskAddPress = (event: SubmitEvent): void => {
 const handleTaskCancelPress = (): void => {
   clearTaskInputs();
 };
+
+const handleTaskEditPress = (event: Event): void => {
+	const button = event.currentTarget as HTMLButtonElement;
+	const parent = button.parentElement;
+	const editElement = parent!.nextElementSibling;
+	parent?.classList.add("invisible");
+	editElement?.classList.remove("invisible");
+};
+
+const handleTaskEditSavePress = (event: Event): void => {
+	debugger
+	console.log("save")
+	event.preventDefault();
+	const button = event.currentTarget as HTMLButtonElement;
+	const parent = button!.parentElement!.parentElement;
+	const displayElement = parent!.previousElementSibling;
+	parent?.classList.add("invisible");
+	displayElement?.classList.remove("invisible");
+}
+const handleTaskEditCancelPress = (event: Event): void => {
+	console.log("cancel")
+	event.preventDefault();
+	debugger;
+	const button = event.currentTarget as HTMLButtonElement;
+	const parent = button!.parentElement!.parentElement;
+	const displayElement = parent!.previousElementSibling;
+	parent?.classList.add("invisible");
+	displayElement?.classList.remove("invisible");
+}
 
 const clearTaskInputs = (): void => {
   if (formTaskTitleInput) formTaskTitleInput.value = '';

@@ -36,8 +36,6 @@
 }
 
 .task {
-	display: flex;
-	align-items: start;
 	background-color: var(--color-2);
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 	border-radius: 5px;
@@ -55,6 +53,11 @@
 
 .task + .task {
 	margin-top: 1rem;
+}
+
+.task > * {
+	display: flex;
+	align-items: start;
 }
 
 .task__button {

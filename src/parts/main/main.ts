@@ -94,19 +94,32 @@ const prepareTaskHTML = (task: TTask): string => {
   const date = new Date(task.date);
 
   const html = `<li class="task-list__task task" data-id="${task.id}">
-		<div class="task_info-wrapper">
-			<span class="task__title">${task.title}</span>
-			<span class="task__description">${task.description}</span>
-			<span class="task__date">${
-        isValid(date) ? format(date, 'dd MM yyyy') : ''
-      }</span>
+		<div class="task__display-wrapper">
+			<div class="task_info-wrapper">
+				<span class="task__title">${task.title}</span>
+				<span class="task__description">${task.description}</span>
+				<span class="task__date">${
+					isValid(date) ? format(date, 'dd MM yyyy') : ''
+				}</span>
+			</div>
+			<button class="task__edit task__button edit">
+				<span class="material-icons header__logo md-24">edit</span>
+			</button>
+			<button class="task__remove task__button remove">
+				<span class="material-icons header__logo md-24">close</span>
+			</button>
 		</div>
-		<button class="task__edit task__button edit ">
-			<span class="material-icons header__logo md-24">edit</span>
-		</button>
-		<button class="task__remove task__button remove">
-			<span class="material-icons header__logo md-24">close</span>
-		</button>
+		<form class="task__edit-wrapper invisible">
+			<div class="task_info-wrapper">
+				<input value="${task.title}"></input>
+				<input value="${task.description}"></input>
+				<input required type="date" class="add-form__date-start date-start" name="trip-start" value="${task.date}">
+			</div>
+			<div>	
+				<button type="submit" class="task__save save">Save</button>
+				<button class="task__cancel cancel">Cancel</button>
+			</div>
+		</form>
 	</li>`;
   return html;
 };

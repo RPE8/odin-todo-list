@@ -94,9 +94,11 @@ const prepareTaskHTML = (task: TTask): string => {
   const date = new Date(task.date);
 
   const html = `<li class="task-list__task task" data-id="${task.id}">
-		<span class="task__title">${task.title}</span>
-		<span class="description">${task.description}</span>
-		<span class="date">${isValid(date) ? format(date, 'dd MM yyyy') : ''}</span>
+		<div class="task_info-wrapper">
+			<span class="task__title">${task.title}</span>
+			<span class="description">${task.description}</span>
+			<span class="date">${isValid(date) ? format(date, 'dd MM yyyy') : ''}</span>
+		</div>
 		<button class="task__remove remove">
 			<span class="material-icons header__logo md-24">close</span>
 		</button>

@@ -1,5 +1,7 @@
 .main__container {
 	--color-1: #F8EDEB;
+	--color-2: #E8E8E4;
+	--color-3: #e2e2de;
 }
 .main__container {
 	background-color: var(--color-1);
@@ -35,13 +37,38 @@
 
 .task {
 	display: flex;
-	align-items: center;
+	align-items: start;
 	justify-content: space-between;
+	background-color: var(--color-2);
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	border-radius: 5px;
+	transition: box-shadow .2s, background-color .2s;
+}
+
+.task:hover {
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px;
+	background-color: var(--color-3);
+}
+
+.task:hover .task__remove {
+	display: flex;
 }
 
 .task__remove {
-	display: flex;
 	align-items: flex;
 	border: 0;
 	background: none;
+	display: none;
+	transition: display .2s;
+}
+
+.task_info-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: .4rem;
+}
+
+.task__title {
+	font-weight: bold;
+	font-size: 1.3rem;
 }

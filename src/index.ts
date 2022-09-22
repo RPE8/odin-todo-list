@@ -149,7 +149,12 @@ const clearTaskInputs = (): void => {
 
 const handleDateStartChange = (): void => {};
 
-let selectedProject: TProject;
+let selectedProject: TProject = {
+  title: '1',
+  description: '1',
+  id: '1',
+  tasks: [{ id: 'aaaaaaaaaaaaaaa', title: 'aaaaaaaaaaaaaaa', date: '2022-02-02', description: 'aaaaaaaaaaaaaaa' }]
+};
 
 const formProject = document.querySelector(
   '.project-menu__add-form'
@@ -191,7 +196,7 @@ addProject({
   title: '1',
   description: '1',
   id: '1',
-  tasks: [{ id: '1', title: '1', date: '', description: '' }]
+  tasks: [{ id: 'aaaaaaaaaaaaaaa', title: 'aaaaaaaaaaaaaaa', date: '2022-02-02', description: 'aaaaaaaaaaaaaaa' }]
 });
 addProject({
   title: '2',
@@ -200,3 +205,4 @@ addProject({
   tasks: [{ id: '2', title: '2', date: '', description: '' }]
 });
 syncProjects();
+renderProjectTasksPart(selectedProject, selectedProject.tasks);

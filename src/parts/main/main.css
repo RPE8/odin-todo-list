@@ -54,6 +54,10 @@
 	display: flex;
 }
 
+.task + .task {
+	margin-top: 1rem;
+}
+
 .task__remove {
 	align-items: flex;
 	border: 0;
@@ -71,4 +75,12 @@
 .task__title {
 	font-weight: bold;
 	font-size: 1.3rem;
+}
+
+.task__description {
+	font-size: 1rem;
+}
+
+.task__date {
+	font-size: 1rem;
 }

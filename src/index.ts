@@ -102,8 +102,8 @@ const handleProjectAddPress = (event: SubmitEvent): void => {
     syncProjects();
     clearProjectInputs();
   } catch (err) {
-		alert(err);
-	}
+    alert(err);
+  }
 };
 
 const handleProjectCancelPress = (): void => {
@@ -153,7 +153,14 @@ let selectedProject: TProject = {
   title: '1',
   description: '1',
   id: '1',
-  tasks: [{ id: 'aaaaaaaaaaaaaaa', title: 'aaaaaaaaaaaaaaa', date: '2022-02-02', description: 'aaaaaaaaaaaaaaa' }]
+  tasks: [
+    {
+      id: 'aaaaaaaaaaaaaaa',
+      title: 'aaaaaaaaaaaaaaa',
+      date: '2022-02-02',
+      description: 'aaaaaaaaaaaaaaa'
+    }
+  ]
 };
 
 const formProject = document.querySelector(
@@ -196,7 +203,14 @@ addProject({
   title: '1',
   description: '1',
   id: '1',
-  tasks: [{ id: 'aaaaaaaaaaaaaaa', title: 'aaaaaaaaaaaaaaa', date: '2022-02-02', description: 'aaaaaaaaaaaaaaa' }]
+  tasks: [
+    {
+      id: 'aaaaaaaaaaaaaaa',
+      title: 'aaaaaaaaaaaaaaa',
+      date: '2022-02-02',
+      description: 'aaaaaaaaaaaaaaa'
+    }
+  ]
 });
 addProject({
   title: '2',

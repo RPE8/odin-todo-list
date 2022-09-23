@@ -35,7 +35,11 @@ type TProjectUpdater = (project: TProject) => TProject[];
 type TProjectValidator = (project: TProject) => boolean;
 type TProjectsTaskValidator = (project: TProject, task: TTask) => boolean;
 type TProjectsTaskFinder = TEntityFinder<TTask, TTaskValidationFields>;
-type TProjectReplacer = (projectRepalceBy: TProject, projectToBeReplaced: Partial<TProject>, projectsReplaceIn: TProject[]) => boolean
+type TProjectReplacer = (
+	projectRepalceBy: TProject,
+	projectToBeReplaced: Partial<TProject>,
+	projectsReplaceIn: TProject[]
+) => boolean;
 type TProjectsTaskReplacer = (
 	taskReplaceBy: TTask,
 	taskToBeReplaced: Partial<TTask>,
@@ -158,7 +162,7 @@ export const replaceProject: TProjectReplacer = (
 	}
 
 	return false;
-}
+};
 
 export const replaceTask: TProjectsTaskReplacer = (
 	taskReplaceBy,

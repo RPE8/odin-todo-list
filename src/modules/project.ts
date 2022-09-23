@@ -35,6 +35,7 @@ type TProjectUpdater = (project: TProject) => TProject[];
 type TProjectValidator = (project: TProject) => boolean;
 type TProjectsTaskValidator = (project: TProject, task: TTask) => boolean;
 type TProjectsTaskFinder = TEntityFinder<TTask, TTaskValidationFields>;
+type TProjectReplacer = (projectRepalceBy: TProject, projectToBeReplaced: Partial<TProject>, projectsReplaceIn: TProject[]) => boolean
 type TProjectsTaskReplacer = (
 	taskReplaceBy: TTask,
 	taskToBeReplaced: Partial<TTask>,
@@ -121,6 +122,43 @@ export const findTask: TProjectsTaskFinder = (taskLook4, tasks) => {
 		return true;
 	});
 };
+
+export const replaceProject: TProjectReplacer = (
+	projectReplaceBy,
+	projectToBeReplaced,
+	projectsReplaceIn
+) => {
+	if (!Array.isArray(projectsReplaceIn)) return false;
+	if (!projectReplaceBy) return false;
+	if (!projectToBeReplaced) return false;
+
+	for (let i = 0; i < projectsReplaceIn.length; i++) {
+		let validationFieldsExist = 0;
+		let validationFieldsEqual = 0;
+		for (let j = 0; j < validationFields.length; j++) {
+			if (validationFields[j] in projectToBeReplaced) {
+				validationFieldsExist++;
+				if (
+					projectToBeReplaced[validationFields[j] as TValidationFields] !==
+					projectsReplaceIn[i][validationFields[j] as TValidationFields]
+				) {
+					break;
+				}
+
+				validationFieldsEqual++;
+			}
+		}
+		if (
+			validationFieldsExist !== 0 &&
+			validationFieldsEqual === validationFieldsExist
+		) {
+			projectsReplaceIn[i] = projectReplaceBy;
+			return true;
+		}
+	}
+
+	return false;
+}
 
 export const replaceTask: TProjectsTaskReplacer = (
 	taskReplaceBy,

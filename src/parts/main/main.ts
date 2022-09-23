@@ -39,7 +39,7 @@ export const render = (
 			</div>
 			<div>	
 				<button type="submit" class="task-form__add">Add Task</button>
-				<button class="task-form__add-form">Clear Form</button>
+				<button class="task-form__project-form">Clear Form</button>
 			</div>
 		</form>
 		<ul class="main__task-list task-list">
@@ -110,7 +110,6 @@ const prepareTaskHTML = (task: TTask): string => {
 			</button>
 		</div>
 		<form class="task__edit-wrapper task-form invisible">
-
 				<input data-formPart="task-title" required maxlength="${maxTitleLength}" minlength="${minTitleLength}" class="task-form__title" placeholder="Task name" value="${
 		task.title
 	}"></input>

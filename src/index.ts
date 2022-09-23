@@ -13,7 +13,8 @@ import {
   TProject,
   removeTaskFromProject,
   replaceTask,
-	findTask
+	findTask,
+	replaceProject
 } from './modules/project';
 import { TTaskId, TTask } from './modules/task';
 import { createElement } from './utils';
@@ -33,13 +34,38 @@ render();
 const syncProjects = (): void => {
   renderProjects(getProjects());
   const projectRemoveBtns = Array.from(
-    document.querySelectorAll(`.project-menu__projects-list > [data-id]`)
+    document.querySelectorAll(`.project .remove`)
   ) as HTMLLIElement[];
   projectRemoveBtns.forEach((item) => {
-    item.addEventListener('click', handleProjectPress);
-    item
-      .querySelector('.project__remove')
-      ?.addEventListener('click', handleRemovePress);
+    item?.addEventListener('click', handleProjectRemovePress);
+  });
+
+	const projectEditBtns = Array.from(
+    document.querySelectorAll(`.project .edit`)
+  ) as HTMLLIElement[];
+  projectEditBtns.forEach((item) => {
+    item?.addEventListener('click', handleProjectEditPress);
+  });
+
+	const projectDataDivs = Array.from(
+    document.querySelectorAll(`.project__project-data`)
+  ) as HTMLLIElement[];
+  projectDataDivs.forEach((item) => {
+    item?.addEventListener('click', handleProjectPress);
+  });
+
+	const projectSaveButtons = Array.from(
+    document.querySelectorAll(`.project .project-edit .project-form__save`)
+  ) as HTMLLIElement[];
+  projectSaveButtons.forEach((item) => {
+    item?.addEventListener('click', handleProjectSavePress);
+  });
+
+	const projectCancelButtons = Array.from(
+    document.querySelectorAll(`.project .project-edit .project-form__cancel`)
+  ) as HTMLLIElement[];
+  projectCancelButtons.forEach((item) => {
+    item?.addEventListener('click', handleProjectCancelPress);
   });
 };
 
@@ -86,11 +112,10 @@ const handleTaskRemovePress = (event: Event): void => {
   }
 };
 
-const handleRemovePress = (event: Event): void => {
+const handleProjectRemovePress = (event: Event): void => {
   event.stopPropagation();
   const currentTarget = event.currentTarget as HTMLButtonElement;
-  const parent = currentTarget.parentElement as HTMLLIElement;
-  const id = parent.dataset.id as TProjectId;
+  const id = currentTarget.dataset.id as TProjectId;
   if (id) {
     removeProject(id);
     syncProjects();
@@ -105,36 +130,99 @@ const handleProjectPress = (event: Event): void => {
   syncTasks();
 };
 
-const handleProjectAddPress = (event: SubmitEvent): void => {
-  try {
-    event.preventDefault();
-    const validity = formProject.checkValidity();
-    formProject.reportValidity();
-    const title = formProjectTitleInput?.value;
-    if (!validity) return;
-    const project = {
-      id: title,
-      title: title,
-      description: '',
-      tasks: []
-    };
+const handleProjectEditPress = (event: Event): void => {
+	const button = event.currentTarget as HTMLButtonElement;
+  const id = getIdFromAttributes(button) as TProjectId;
+  const editWrapper = getProjectEditWrapperByProjectId(id);
+  const displayWrapper = getProjectDisplayWrapperByProjectId(id);
+  if (editWrapper) editWrapper.classList.remove('invisible');
+  if (displayWrapper) displayWrapper.classList.add('invisible');
+}
 
-    if (!isValidProject(project)) return;
+const handleProjectSavePress = (event: Event): void => {
+	event.preventDefault();
+	const button = event.currentTarget as HTMLButtonElement;
+  const id = getIdFromAttributes(button) as TProjectId;
+  const projectEditForm = getProjectEditWrapperByProjectId(id);
+  if (!projectEditForm) return;
 
-    addProject(project);
+  const project = prepareAndValidateProjectOnSave(projectEditForm, id);
+  if (!project) {
+    return;
+  }
+  if (replaceProject(project, { id }, getProjects())) {
     syncProjects();
-    clearProjectInputs();
+    projectEditForm.reset();
+  }
+
+  disableTaskEdit(id);
+}
+
+const handleProjectCancelPress = (event: Event): void => {
+	event.preventDefault();
+	const button = event.currentTarget as HTMLButtonElement;
+  const id = getIdFromAttributes(button) as TProjectId;
+	disableProjectEdit(id);
+}
+
+const disableProjectEdit = (id: TProjectId): void => {
+	const editWrapper = getProjectEditWrapperByProjectId(id);
+  const displayWrapper = getProjectDisplayWrapperByProjectId(id);
+  if (editWrapper) editWrapper.classList.add('invisible');
+  if (displayWrapper) displayWrapper.classList.remove('invisible');
+}
+
+const handleProjectAddPress = (event: SubmitEvent): void => {
+	event.preventDefault();
+  const project = prepareAndValidateProjectOnSave(newProjectForm);
+  if (!project) {
+    return;
+  }
+
+  try {
+    addProject(project)
+    syncProjects();
+    newProjectForm.reset();
   } catch (err) {
     alert(err);
   }
 };
 
-const handleProjectCancelPress = (): void => {
-  clearProjectInputs();
-};
+const prepareAndValidateProjectOnSave = (form: HTMLFormElement, projectId?: TProjectId): TProject | false => {
+	try {
+    const validity = form.checkValidity();
+    form.reportValidity();
+		const title = (
+      form.querySelector("[data-formPart='project-title']") as HTMLInputElement
+    ).value;
+		
+    if (!validity) return false;
+		
+		const project = {
+      id: title,
+      title: title,
+      description: "",
+			tasks: []
+    } as TProject;
 
-const clearProjectInputs = (): void => {
-  if (formProjectTitleInput) formProjectTitleInput.value = '';
+		if (projectId) {
+			const originalProject = findProject({id: projectId})[0];
+			if (originalProject) {
+				project.tasks = originalProject.tasks;
+			}
+		}
+    
+    return project;
+  } catch (err) {
+    alert(err);
+    return false;
+  }
+}
+
+const handleProjectClearPress = (event: Event): void => {
+	debugger;
+	event.preventDefault();
+	newProjectForm.reset();
 };
 
 const handleTaskAddPress = (event: SubmitEvent): void => {
@@ -193,12 +281,23 @@ const getIdFromAttributes = (
   return element?.dataset?.id;
 };
 
-const getDisplayWrapperByTaskId = (id: TTaskId): HTMLDivElement | undefined => {
+const getProjectDisplayWrapperByProjectId = (id: TProjectId): HTMLDivElement | undefined => {
+  return document.querySelector(
+    `.project[data-id="${id}"] .project__display-wrapper`
+  ) as HTMLDivElement | undefined;
+};
+const getProjectEditWrapperByProjectId = (id: TProjectId): HTMLFormElement | undefined => {
+  return document.querySelector(
+    `.project[data-id="${id}"] .project__edit-wrapper`
+  ) as HTMLFormElement | undefined;
+};
+
+const getTaskDisplayWrapperByTaskId = (id: TTaskId): HTMLDivElement | undefined => {
   return document.querySelector(
     `.task[data-id="${id}"] .task__display-wrapper`
   ) as HTMLDivElement | undefined;
 };
-const getEditWrapperByTaskId = (id: TTaskId): HTMLFormElement | undefined => {
+const getTaskEditWrapperByTaskId = (id: TTaskId): HTMLFormElement | undefined => {
   return document.querySelector(
     `.task[data-id="${id}"] .task__edit-wrapper`
   ) as HTMLFormElement | undefined;
@@ -207,8 +306,8 @@ const getEditWrapperByTaskId = (id: TTaskId): HTMLFormElement | undefined => {
 const handleTaskEditPress = (event: Event): void => {
   const button = event.currentTarget as HTMLButtonElement;
   const id = getIdFromAttributes(button) as TTaskId;
-  const editWrapper = getEditWrapperByTaskId(id);
-  const displayWrapper = getDisplayWrapperByTaskId(id);
+  const editWrapper = getTaskEditWrapperByTaskId(id);
+  const displayWrapper = getTaskDisplayWrapperByTaskId(id);
   if (editWrapper) editWrapper.classList.remove('invisible');
   if (displayWrapper) displayWrapper.classList.add('invisible');
 };
@@ -218,7 +317,7 @@ const handleTaskEditSavePress = (event: Event): void => {
 
   const button = event.currentTarget as HTMLButtonElement;
   const id = getIdFromAttributes(button) as TTaskId;
-  const taskEditForm = getEditWrapperByTaskId(id);
+  const taskEditForm = getTaskEditWrapperByTaskId(id);
   if (!taskEditForm) return;
 
   const task = prepareAndValidateTaskOnSave(taskEditForm);
@@ -238,7 +337,7 @@ const handleTaskEditCancelPress = (event: Event): void => {
   event.preventDefault();
   const button = event.currentTarget as HTMLButtonElement;
   const id = getIdFromAttributes(button) as TTaskId;
-	const form = getEditWrapperByTaskId(id);
+	const form = getTaskEditWrapperByTaskId(id);
 	const task = findTask({id}, selectedProject.tasks)[0];
   disableTaskEdit(id);
 	if (task && form) setTaskFormData(task, form);
@@ -246,8 +345,8 @@ const handleTaskEditCancelPress = (event: Event): void => {
 
 
 const disableTaskEdit = (id: TTaskId): void => {
-  const editWrapper = getEditWrapperByTaskId(id);
-  const displayWrapper = getDisplayWrapperByTaskId(id);
+  const editWrapper = getTaskEditWrapperByTaskId(id);
+  const displayWrapper = getTaskDisplayWrapperByTaskId(id);
   if (editWrapper) editWrapper.classList.add('invisible');
   if (displayWrapper) displayWrapper.classList.remove('invisible');
 };
@@ -278,17 +377,17 @@ let selectedProject: TProject = {
   ]
 };
 
-const formProject = document.querySelector(
-  '.project-menu__add-form'
+const newProjectForm = document.querySelector(
+  '.project-form.add-form'
 ) as HTMLFormElement;
-const formProjectAddButton = document.querySelector(
-  '.project-menu__add-form .add-form__add'
+const newProjectAddButton = document.querySelector(
+  '.project-form.add-form .project-form__add'
 ) as HTMLButtonElement;
-const formProjectCancelButton = document.querySelector(
-  '.project-menu__add-form .add-form__cancel'
+const newProjectClearButton = document.querySelector(
+  '.project-form.add-form .project-form__clear'
 ) as HTMLButtonElement;
-const formProjectTitleInput = document.querySelector(
-  '.project-menu__add-form .add-form__title'
+const newProjectTitleInput = document.querySelector(
+  '.project-form.add-form .project-form__title'
 ) as HTMLInputElement;
 
 const newTaskForm = document.querySelector(
@@ -301,8 +400,8 @@ const newTaskFormCancelButton = document.querySelector(
   '.main__task-form .task-form__cancel'
 ) as HTMLButtonElement;
 
-formProjectAddButton?.addEventListener('click', handleProjectAddPress);
-formProjectCancelButton?.addEventListener('click', handleProjectCancelPress);
+newProjectAddButton?.addEventListener('click', handleProjectAddPress);
+newProjectClearButton?.addEventListener('click', handleProjectClearPress);
 newTaskFormAddButton?.addEventListener('click', handleTaskAddPress);
 newTaskFormCancelButton?.addEventListener('click', handleTaskCancelPress);
 

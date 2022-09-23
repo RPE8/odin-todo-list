@@ -19,15 +19,13 @@
 	flex-direction: column;
 }
 
-.task-form {
-	width: 100%;
+.project-form {
 	display: flex;
 	flex-wrap: wrap;
-	gap: .5rem;
-	justify-content: space-between;
+	gap: .3rem;
 }
 
-.task-form__title {
+.project-form__title {
 	flex: 1 0 100%;
 }
 
@@ -45,6 +43,19 @@
 
 .project {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.project__project-data {
+	display: flex;
+	align-items: center;
+	flex: 1 1 100%;
+}
+
+.project__display-wrapper {
+	display: flex;
+	width: 100%;
 	align-items: center;
 }
 
@@ -53,5 +64,4 @@
 	align-items: flex;
 	border: 0;
 	background: none;
-	margin-left: auto;
 }

@@ -39,7 +39,7 @@ export const render = (
 			</div>
 			<div>	
 				<button type="submit" class="task-form__add">Add Task</button>
-				<button class="task-form__cancel">Clear Form</button>
+				<button class="task-form__add-form">Clear Form</button>
 			</div>
 		</form>
 		<ul class="main__task-list task-list">

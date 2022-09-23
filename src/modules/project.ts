@@ -2,7 +2,8 @@ import {
 	TTask,
 	TTaskId,
 	isValidTask,
-	validationFields as taskValidationFields
+	validationFields as taskValidationFields,
+	TValidationFields as TTaskValidationFields
 } from './task';
 import { copyObj } from '../utils';
 
@@ -33,7 +34,7 @@ type TTaskAdder = (project: Readonly<TProject>, task: TTask) => TProject;
 type TProjectUpdater = (project: TProject) => TProject[];
 type TProjectValidator = (project: TProject) => boolean;
 type TProjectsTaskValidator = (project: TProject, task: TTask) => boolean;
-type TProjectsTaskFinder = TEntityFinder<TTask, TValidationFields>;
+type TProjectsTaskFinder = TEntityFinder<TTask, TTaskValidationFields>;
 type TProjectsTaskReplacer = (
 	taskReplaceBy: TTask,
 	taskToBeReplaced: Partial<TTask>,

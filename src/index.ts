@@ -12,7 +12,8 @@ import {
   TProjectId,
   TProject,
   removeTaskFromProject,
-  replaceTask
+  replaceTask,
+	findTask
 } from './modules/project';
 import { TTaskId, TTask } from './modules/task';
 import { createElement } from './utils';
@@ -237,8 +238,12 @@ const handleTaskEditCancelPress = (event: Event): void => {
   event.preventDefault();
   const button = event.currentTarget as HTMLButtonElement;
   const id = getIdFromAttributes(button) as TTaskId;
+	const form = getEditWrapperByTaskId(id);
+	const task = findTask({id}, selectedProject.tasks)[0];
   disableTaskEdit(id);
+	if (task && form) setTaskFormData(task, form);
 };
+
 
 const disableTaskEdit = (id: TTaskId): void => {
   const editWrapper = getEditWrapperByTaskId(id);
@@ -246,6 +251,16 @@ const disableTaskEdit = (id: TTaskId): void => {
   if (editWrapper) editWrapper.classList.add('invisible');
   if (displayWrapper) displayWrapper.classList.remove('invisible');
 };
+
+const setTaskFormData = (task: TTask, form: HTMLFormElement): void => {
+	const titleInput = form.querySelector(".task-form__title") as HTMLInputElement;
+	const descriptionInput = form.querySelector(".task-form__description") as HTMLInputElement;
+	const dateInput = form.querySelector(".task-form__date-start") as HTMLInputElement;
+
+	titleInput!.value = task.title;
+	descriptionInput!.value = task.description;
+	dateInput!.value = task.date;
+}
 
 const handleDateStartChange = (): void => {};
 

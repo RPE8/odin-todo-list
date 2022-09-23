@@ -25,13 +25,13 @@
 	width: 100%;
 }
 
-.add-form {
+.task-form {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.add-form__title, .add-form__description {
+.task-form__title, .task-form__description {
 	flex: 1 0 100%;
 }
 

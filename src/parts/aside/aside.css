@@ -19,7 +19,7 @@
 	flex-direction: column;
 }
 
-.add-form {
+.task-form {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -27,7 +27,7 @@
 	justify-content: space-between;
 }
 
-.add-form__title {
+.task-form__title {
 	flex: 1 0 100%;
 }
 

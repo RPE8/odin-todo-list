@@ -18,10 +18,6 @@ export const renderToolbar = (projects: TProject[]): typeof container => {
 const render = (projects: TProject[] = []): typeof container => {
 	container.replaceChildren();
 	const html = `<aside class="aside">
-		<menu class="aside__main-menu main-menu menu">
-			<li>Today</li>
-			<li>This Week<li>
-		</menu>
 		<h3 class="aside__projects-title projects-title">Projects</h3>
 		<form class="aside__project-form project-form add-form">
 			<input required data-formPart='project-title' maxlength="${maxTitleLength}" minlength="${minTitleLength}" placeholder="Project name" class="project-form__title"></input>

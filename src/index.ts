@@ -1,6 +1,10 @@
 import './index.css';
 import { render as renderHeader } from './parts/header/header';
-import { renderTasklist, renderProjectTasksPart } from './parts/main/main';
+import {
+	renderTasklist,
+	renderProjectTasksPart,
+	renderSelectedProject
+} from './parts/main/main';
 import { renderToolbar, renderProjects } from './parts/aside/aside';
 import {
 	addProject,
@@ -119,6 +123,8 @@ const handleProjectRemovePress = (event: Event): void => {
 	if (id) {
 		removeProject(id);
 		syncProjects();
+
+		if (selectedProject.id === id) renderTasklist([]);
 	}
 };
 
@@ -151,11 +157,15 @@ const handleProjectSavePress = (event: Event): void => {
 		return;
 	}
 	if (replaceProject(project, { id }, getProjects())) {
+		if (selectedProject.id === id) {
+			selectedProject = findProject({ id: project.id })[0];
+			renderSelectedProject(selectedProject);
+		}
 		syncProjects();
 		projectEditForm.reset();
 	}
 
-	disableTaskEdit(id);
+	disableProjectEdit(id);
 };
 
 const handleProjectCancelPress = (event: Event): void => {

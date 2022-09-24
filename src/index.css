@@ -78,3 +78,11 @@ html, body {
 .invisible {
 	display: none !important;
 }
+
+.material-icons:hover {
+	color: rgb(97, 97, 97);
+}
+
+li, button {
+	cursor: pointer;
+}

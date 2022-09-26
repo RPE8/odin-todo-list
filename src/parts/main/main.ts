@@ -43,7 +43,7 @@ export const render = (
 			</div>
 		</form>
 		<ul class="main__task-list task-list">
-			${prepareTasksListHTML(tasks)}
+			${prepareTasksListHTML()}
 		</ul>
 	</main>`;
 
@@ -51,7 +51,7 @@ export const render = (
 	return container;
 };
 
-const prepareTasksListHTML = (tasks: TTask[]): string => {
+const prepareTasksListHTML = (): string => {
 	const html = '<li></li>';
 	return html;
 };

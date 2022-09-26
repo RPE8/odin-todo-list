@@ -11,7 +11,6 @@ import {
 	getProjects,
 	findProject,
 	removeProject,
-	isValidProject,
 	addTask2Project,
 	TProjectId,
 	TProject,
@@ -24,6 +23,7 @@ import { TTaskId, TTask } from './modules/task';
 import { createElement } from './utils';
 
 const body = document.querySelector('body');
+let selectedProject: TProject;
 
 function render(): void {
 	if (!body) throw new Error('err');
@@ -103,17 +103,6 @@ const syncTasks = (): void => {
 	tasksEditCancelBtns.forEach((item) => {
 		item.addEventListener('click', handleTaskEditCancelPress);
 	});
-};
-
-const handleTaskRemovePress = (event: Event): void => {
-	const currentTarget = event.currentTarget as HTMLButtonElement;
-	if (!currentTarget) return;
-	const parent = currentTarget.parentElement!.parentElement as HTMLLIElement;
-	const id = parent.dataset.id as TTaskId;
-	if (id) {
-		removeTaskFromProject(selectedProject, id);
-		syncTasks();
-	}
 };
 
 const handleProjectRemovePress = (event: Event): void => {
@@ -283,6 +272,17 @@ const prepareAndValidateTaskOnSave = (form: HTMLFormElement): TTask | false => {
 	}
 };
 
+const handleTaskRemovePress = (event: Event): void => {
+	const currentTarget = event.currentTarget as HTMLButtonElement;
+	if (!currentTarget || !currentTarget.parentElement) return;
+	const parent = currentTarget.parentElement.parentElement as HTMLLIElement;
+	const id = parent.dataset.id as TTaskId;
+	if (id) {
+		removeTaskFromProject(selectedProject, id);
+		syncTasks();
+	}
+};
+
 const handleTaskCancelPress = (event: Event): void => {
 	event.preventDefault();
 	newTaskForm.reset();
@@ -382,25 +382,11 @@ const setTaskFormData = (task: TTask, form: HTMLFormElement): void => {
 		'.task-form__date-start'
 	) as HTMLInputElement;
 
-	titleInput!.value = task.title;
-	descriptionInput!.value = task.description;
-	dateInput!.value = task.date;
-};
+	if (!titleInput || !descriptionInput || !dateInput) return;
 
-const handleDateStartChange = (): void => {};
-
-let selectedProject: TProject = {
-	title: '1',
-	description: '1',
-	id: '1',
-	tasks: [
-		{
-			id: 'aaaaaaaaaaaaaaa',
-			title: 'aaaaaaaaaaaaaaa',
-			date: '2022-02-02',
-			description: 'aaaaaaaaaaaaaaa'
-		}
-	]
+	titleInput.value = task.title;
+	descriptionInput.value = task.description;
+	dateInput.value = task.date;
 };
 
 const newProjectForm = document.querySelector(
@@ -412,9 +398,6 @@ const newProjectAddButton = document.querySelector(
 const newProjectClearButton = document.querySelector(
 	'.project-form.add-form .project-form__clear'
 ) as HTMLButtonElement;
-const newProjectTitleInput = document.querySelector(
-	'.project-form.add-form .project-form__title'
-) as HTMLInputElement;
 
 const newTaskForm = document.querySelector(
 	'.main__task-form'
@@ -431,26 +414,5 @@ newProjectClearButton?.addEventListener('click', handleProjectClearPress);
 newTaskFormAddButton?.addEventListener('click', handleTaskAddPress);
 newTaskFormCancelButton?.addEventListener('click', handleTaskCancelPress);
 
-addProject({
-	title: '1',
-	description: '1',
-	id: '1',
-	tasks: [
-		{
-			id: 'aaaaaaaaaaaaaaa',
-			title: 'aaaaaaaaaaaaaaa',
-			date: '2022-02-02',
-			description: 'aaaaaaaaaaaaaaa'
-		}
-	]
-});
-addProject({
-	title: '2',
-	description: '2',
-	id: '2',
-	tasks: [{ id: '2', title: '2', date: '', description: '' }]
-});
 syncProjects();
 syncTasks();
-
-selectedProject = getProjects()[0];
